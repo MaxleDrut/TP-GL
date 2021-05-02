@@ -4021,6 +4021,23 @@
 										},
 										{
 											"_type": "UMLOperationView",
+											"_id": "AAAAAAF5KE0AOou7stI=",
+											"_parent": {
+												"$ref": "AAAAAAF5IynEO7P8XK8="
+											},
+											"model": {
+												"$ref": "AAAAAAF5KE0AL4up33g="
+											},
+											"font": "Arial;13;0",
+											"left": 965,
+											"top": 365,
+											"width": 584.25732421875,
+											"height": 13,
+											"text": "+convertValuesAttributesToATMOScore(values: Map<Attribute,double>): String",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
 											"_id": "AAAAAAF5IzQUjMd6VTQ=",
 											"_parent": {
 												"$ref": "AAAAAAF5IynEO7P8XK8="
@@ -4030,27 +4047,27 @@
 											},
 											"font": "Arial;13;0",
 											"left": 965,
-											"top": 365,
+											"top": 380,
 											"width": 584.25732421875,
 											"height": 13,
-											"text": "+malfunctioningAnalysis(sensorId: string): double",
+											"text": "+FR5_malfunctioningAnalysis(sensorToCheck: Sensor): double",
 											"horizontalAlignment": 0
 										},
 										{
 											"_type": "UMLOperationView",
-											"_id": "AAAAAAF5IzUnicmkGOk=",
+											"_id": "AAAAAAF5KEcF932SU8E=",
 											"_parent": {
 												"$ref": "AAAAAAF5IynEO7P8XK8="
 											},
 											"model": {
-												"$ref": "AAAAAAF5IzUnZcmSfGk="
+												"$ref": "AAAAAAF5KEcF7H2Asa4="
 											},
 											"font": "Arial;13;0",
 											"left": 965,
-											"top": 380,
+											"top": 395,
 											"width": 584.25732421875,
 											"height": 13,
-											"text": "+meanAirQuality(latitude: double, longitude: double, radius: double, start: time_t, stop: time_t): double",
+											"text": "-FR7_averageValue(sensor: Sensor, targetAttribute: Attribute, t1: time_t, t2: time_t): double",
 											"horizontalAlignment": 0
 										},
 										{
@@ -4064,27 +4081,44 @@
 											},
 											"font": "Arial;13;0",
 											"left": 965,
-											"top": 395,
+											"top": 410,
 											"width": 584.25732421875,
 											"height": 13,
-											"text": "+compareSensors(sensorId: string): map<Sensor double>",
+											"text": "+FR7_sensorComparison(sensorToCompare: Sensor, t1: time_t, t2: time_t): map<Sensor double>",
 											"horizontalAlignment": 0
 										},
 										{
 											"_type": "UMLOperationView",
-											"_id": "AAAAAAF5Izn/gs8KTAE=",
+											"_id": "AAAAAAF5KED6WXe72U0=",
 											"_parent": {
 												"$ref": "AAAAAAF5IynEO7P8XK8="
 											},
 											"model": {
-												"$ref": "AAAAAAF5Izn/X8749wI="
+												"$ref": "AAAAAAF5KED6SHepc6g="
 											},
 											"font": "Arial;13;0",
 											"left": 965,
-											"top": 410,
+											"top": 425,
 											"width": 584.25732421875,
 											"height": 13,
-											"text": "+airQuality(latitude: double, longitude: double, time: time_t): double",
+											"text": "-FR8_qualityAttributes(time: time_t, latitude: double, longitude: double): Map <Attribute,double>",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF5IzUnicmkGOk=",
+											"_parent": {
+												"$ref": "AAAAAAF5IynEO7P8XK8="
+											},
+											"model": {
+												"$ref": "AAAAAAF5IzUnZcmSfGk="
+											},
+											"font": "Arial;13;0",
+											"left": 965,
+											"top": 440,
+											"width": 584.25732421875,
+											"height": 13,
+											"text": "+FR8_quality(latitude: double, longitude: double, time: time_t): String",
 											"horizontalAlignment": 0
 										}
 									],
@@ -4092,7 +4126,7 @@
 									"left": 960,
 									"top": 315,
 									"width": 594.25732421875,
-									"height": 113
+									"height": 143
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -4132,7 +4166,7 @@
 							"left": 960,
 							"top": 280,
 							"width": 594.25732421875,
-							"height": 148,
+							"height": 178,
 							"nameCompartment": {
 								"$ref": "AAAAAAF5IynEOrP2IV8="
 							},
@@ -4170,8 +4204,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1150,
-									"top": 469,
+									"left": 1141,
+									"top": 485,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -4191,8 +4225,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 1161,
-									"top": 480,
+									"left": 1151,
+									"top": 496,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -4212,8 +4246,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1129,
-									"top": 448,
+									"left": 1120,
+									"top": 462,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -4233,8 +4267,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1170,
-									"top": 450,
+									"left": 1146,
+									"top": 480,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -4254,8 +4288,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1178,
-									"top": 461,
+									"left": 1153,
+									"top": 491,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -4275,8 +4309,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1154,
-									"top": 428,
+									"left": 1131,
+									"top": 457,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -4295,8 +4329,8 @@
 										"$ref": "AAAAAAF5Iyo5DrV6smw="
 									},
 									"font": "Arial;13;0",
-									"left": 1117,
-									"top": 494,
+									"left": 1121,
+									"top": 495,
 									"width": 53.11083984375,
 									"height": 13,
 									"alpha": -0.7008542538628011,
@@ -4317,8 +4351,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1141,
-									"top": 497,
+									"left": 1145,
+									"top": 499,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -4336,7 +4370,7 @@
 										"$ref": "AAAAAAF5Iyo5DrV6smw="
 									},
 									"font": "Arial;13;0",
-									"left": 1100,
+									"left": 1105,
 									"top": 471,
 									"width": 19.5126953125,
 									"height": 13,
@@ -4388,7 +4422,7 @@
 								"$ref": "AAAAAAF5IynEOrP1xLo="
 							},
 							"lineStyle": 1,
-							"points": "1179:428;1102:503",
+							"points": "1156:458;1106:503",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF5Iyo5ELV9NLo="
@@ -5197,7 +5231,8 @@
 								"$ref": "AAAAAAF5IvBjU0UcNCk="
 							},
 							"name": "latitude double",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -5894,11 +5929,39 @@
 						},
 						{
 							"_type": "UMLOperation",
+							"_id": "AAAAAAF5KE0AL4up33g=",
+							"_parent": {
+								"$ref": "AAAAAAF5IynEObPzVXY="
+							},
+							"name": "convertValuesAttributesToATMOScore",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KE17U4zko0c=",
+									"_parent": {
+										"$ref": "AAAAAAF5KE0AL4up33g="
+									},
+									"type": "String",
+									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KE20NY3CXHs=",
+									"_parent": {
+										"$ref": "AAAAAAF5KE0AL4up33g="
+									},
+									"name": "values",
+									"type": "Map<Attribute,double>"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
 							"_id": "AAAAAAF5IzQUZsdocBo=",
 							"_parent": {
 								"$ref": "AAAAAAF5IynEObPzVXY="
 							},
-							"name": "malfunctioningAnalysis",
+							"name": "FR5_malfunctioningAnalysis",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -5906,8 +5969,10 @@
 									"_parent": {
 										"$ref": "AAAAAAF5IzQUZsdocBo="
 									},
-									"name": "sensorId",
-									"type": "string"
+									"name": "sensorToCheck",
+									"type": {
+										"$ref": "AAAAAAF5IvBjU0UcNCk="
+									}
 								},
 								{
 									"_type": "UMLParameter",
@@ -5922,11 +5987,166 @@
 						},
 						{
 							"_type": "UMLOperation",
+							"_id": "AAAAAAF5KEcF7H2Asa4=",
+							"_parent": {
+								"$ref": "AAAAAAF5IynEObPzVXY="
+							},
+							"name": "FR7_averageValue",
+							"visibility": "private",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEdlpX5yO+I=",
+									"_parent": {
+										"$ref": "AAAAAAF5KEcF7H2Asa4="
+									},
+									"type": "double",
+									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEf8CH9Q1FM=",
+									"_parent": {
+										"$ref": "AAAAAAF5KEcF7H2Asa4="
+									},
+									"name": "sensor",
+									"type": {
+										"$ref": "AAAAAAF5IvBjU0UcNCk="
+									}
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEjgSIAJy40=",
+									"_parent": {
+										"$ref": "AAAAAAF5KEcF7H2Asa4="
+									},
+									"name": "targetAttribute",
+									"type": {
+										"$ref": "AAAAAAF5IvGEOEVI82Q="
+									}
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEkrAoDCfOQ=",
+									"_parent": {
+										"$ref": "AAAAAAF5KEcF7H2Asa4="
+									},
+									"name": "t1",
+									"type": "time_t"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KElV8oF7BaY=",
+									"_parent": {
+										"$ref": "AAAAAAF5KEcF7H2Asa4="
+									},
+									"name": "t2",
+									"type": "time_t"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF5IzbIXs2W/bQ=",
+							"_parent": {
+								"$ref": "AAAAAAF5IynEObPzVXY="
+							},
+							"name": "FR7_sensorComparison",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5IzhCWM52Lhg=",
+									"_parent": {
+										"$ref": "AAAAAAF5IzbIXs2W/bQ="
+									},
+									"name": "sensorToCompare",
+									"type": {
+										"$ref": "AAAAAAF5IvBjU0UcNCk="
+									}
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5IzhCWM53B84=",
+									"_parent": {
+										"$ref": "AAAAAAF5IzbIXs2W/bQ="
+									},
+									"type": "map<Sensor double>",
+									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KDytlnIHsTI=",
+									"_parent": {
+										"$ref": "AAAAAAF5IzbIXs2W/bQ="
+									},
+									"name": "t1",
+									"type": "time_t"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KDznznLAkbk=",
+									"_parent": {
+										"$ref": "AAAAAAF5IzbIXs2W/bQ="
+									},
+									"name": "t2",
+									"type": "time_t"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF5KED6SHepc6g=",
+							"_parent": {
+								"$ref": "AAAAAAF5IynEObPzVXY="
+							},
+							"name": "FR8_qualityAttributes",
+							"visibility": "private",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEHFL3ln7U0=",
+									"_parent": {
+										"$ref": "AAAAAAF5KED6SHepc6g="
+									},
+									"type": "Map <Attribute,double>",
+									"direction": "return"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEMZAXrW5c8=",
+									"_parent": {
+										"$ref": "AAAAAAF5KED6SHepc6g="
+									},
+									"name": "time",
+									"type": "time_t"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KENqPXuPYTs=",
+									"_parent": {
+										"$ref": "AAAAAAF5KED6SHepc6g="
+									},
+									"name": "latitude",
+									"type": "double"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF5KEQKS3xIuJI=",
+									"_parent": {
+										"$ref": "AAAAAAF5KED6SHepc6g="
+									},
+									"name": "longitude",
+									"type": "double"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
 							"_id": "AAAAAAF5IzUnZcmSfGk=",
 							"_parent": {
 								"$ref": "AAAAAAF5IynEObPzVXY="
 							},
-							"name": "meanAirQuality",
+							"name": "FR8_quality",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -5948,29 +6168,11 @@
 								},
 								{
 									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzZJecqqkZs=",
-									"_parent": {
-										"$ref": "AAAAAAF5IzUnZcmSfGk="
-									},
-									"name": "radius",
-									"type": "double"
-								},
-								{
-									"_type": "UMLParameter",
 									"_id": "AAAAAAF5IzZJesqrb+A=",
 									"_parent": {
 										"$ref": "AAAAAAF5IzUnZcmSfGk="
 									},
-									"name": "start",
-									"type": "time_t"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzZJesqs5nw=",
-									"_parent": {
-										"$ref": "AAAAAAF5IzUnZcmSfGk="
-									},
-									"name": "stop",
+									"name": "time",
 									"type": "time_t"
 								},
 								{
@@ -5979,81 +6181,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF5IzUnZcmSfGk="
 									},
-									"type": "double",
-									"direction": "return"
-								}
-							]
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAF5IzbIXs2W/bQ=",
-							"_parent": {
-								"$ref": "AAAAAAF5IynEObPzVXY="
-							},
-							"name": "compareSensors",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzhCWM52Lhg=",
-									"_parent": {
-										"$ref": "AAAAAAF5IzbIXs2W/bQ="
-									},
-									"name": "sensorId",
-									"type": "string"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzhCWM53B84=",
-									"_parent": {
-										"$ref": "AAAAAAF5IzbIXs2W/bQ="
-									},
-									"type": "map<Sensor double>",
-									"direction": "return"
-								}
-							]
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAF5Izn/X8749wI=",
-							"_parent": {
-								"$ref": "AAAAAAF5IynEObPzVXY="
-							},
-							"name": "airQuality",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzqSuc/YO+I=",
-									"_parent": {
-										"$ref": "AAAAAAF5Izn/X8749wI="
-									},
-									"name": "latitude",
-									"type": "double"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzqSus/ZEjk=",
-									"_parent": {
-										"$ref": "AAAAAAF5Izn/X8749wI="
-									},
-									"name": "longitude",
-									"type": "double"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzqSus/au8Y=",
-									"_parent": {
-										"$ref": "AAAAAAF5Izn/X8749wI="
-									},
-									"name": "time",
-									"type": "time_t"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF5IzqSus/bG+M=",
-									"_parent": {
-										"$ref": "AAAAAAF5Izn/X8749wI="
-									},
-									"type": "double",
+									"type": "String",
 									"direction": "return"
 								}
 							]
