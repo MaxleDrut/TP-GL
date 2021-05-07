@@ -4,10 +4,10 @@
 #include <ctime>
 #include <vector>
 #include <fstream>
-#include "User.h"
-#include "IndividualUser.h"
-#include "ProviderUser.h"
-#include "GovernmentUser.h"
+#include "user/User.h"
+#include "user/IndividualUser.h"
+#include "user/ProviderUser.h"
+#include "user/GovernmentUser.h"
 
 using namespace std;
 
