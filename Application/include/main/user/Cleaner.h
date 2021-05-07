@@ -1,6 +1,9 @@
 #pragma once
 
 #include <ctime>
+#include <string>
+
+using namespace std;
 
 class Cleaner
 {
@@ -9,14 +12,11 @@ private:
     double longitude;
     time_t start;
     time_t stop;
+    string identifier;
 
 public:
-    Cleaner(const double longi, const double lat, const time_t start, const time_t stop) : longitude(longi), latitude(lat), start(start), stop(stop) {}
-
-    Cleaner() {
-        longitude = latitude = 0.0;
-        start = stop = NULL;
-    }
+    Cleaner(const string id, const double longi, const double lat, const time_t start, const time_t stop) : identifier(id),longitude(longi), latitude(lat), start(start), stop(stop) {}
+    Cleaner() {}
 
     ~Cleaner() = default;
 

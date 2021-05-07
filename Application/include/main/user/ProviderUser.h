@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "User.h"
-#include "Cleaner.h"
+#include "user/User.h"
+#include "user/Cleaner.h"
 
 using namespace std;
 

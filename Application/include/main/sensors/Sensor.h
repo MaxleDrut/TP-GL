@@ -2,10 +2,9 @@
 
 #include <string>
 #include <vector>
-#include "Measurement.h"
+#include "sensors/Measurement.h"
 
 using namespace std;
-
 
 class Sensor
 {
@@ -14,16 +13,16 @@ class Sensor
     double latitude;
     double longitude;
     bool reliable;
-    vector<Measurement> measurements;
+    vector<Measurement> measurements{};
 
 public:
-
-    Sensor(string const &identifier, double latitude,double longitude, bool reliable, vector<Measurement> measurements = vector<Measurement>()){
+    Sensor(string const &identifier, double latitude, double longitude, bool reliable, vector<Measurement> _measurements)
+    {
         this->identifier = identifier;
         this->latitude = latitude;
         this->longitude = longitude;
         this->reliable = reliable;
-        this->measurements = move(measurements);
+        this->measurements = move(_measurements);
     }
 
     virtual ~Sensor()= default;
