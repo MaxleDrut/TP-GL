@@ -3,8 +3,13 @@
 #include <time.h>
 
 class Cleaner {
-    public:
+     private:
+        double latitude;
+        double longitude;
+        time_t start;
+        time_t stop;
 
+    public:
         Cleaner(const double longi, const double lat, const time_t start, const time_t stop) : longitude(longi), latitude(lat), start(start), stop(stop) {
         }
 
@@ -32,9 +37,4 @@ class Cleaner {
             return longitude;
         }
 
-    private:
-        double latitude;
-        double longitude;
-        time_t start;
-        time_t stop;
 };

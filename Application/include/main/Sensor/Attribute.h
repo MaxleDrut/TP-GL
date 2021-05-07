@@ -4,6 +4,11 @@
 using namespace std;
 
 class Attribute {
+    private:
+        string unit;
+        string description;
+        string identifier;
+        
     public:
         Attribute(const string unit, const string desc, const string iden) : unit(unit), description(desc), identifier(iden) {
 
@@ -24,10 +29,5 @@ class Attribute {
         virtual const string getIdentifier() const {
             return identifier;
         }
-        
-    private:
-        string unit;
-        string description;
-        string identifier;
 
 };
