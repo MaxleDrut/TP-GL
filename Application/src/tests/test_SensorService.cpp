@@ -1,13 +1,6 @@
-#include <assert.h>
-#include <iostream>
-using namespace std;
+#include "tests/test_ServiceSensor.h"
 
-#include "services/SensorService.h"
-
-
-#define NDEBUG
-
-int main()
+int testService()
 {
     SensorService sensor();
 

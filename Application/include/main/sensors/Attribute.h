@@ -11,7 +11,7 @@ private:
     string identifier;
 
 public:
-    Attribute(string &unit, string &desc, string &iden) : unit(unit), description(desc), identifier(iden) {};
+    Attribute(string const &unit, string const &desc, string const &iden) : unit(unit), description(desc), identifier(iden) {};
 
     Attribute() {
         unit = description = identifier = nullptr;

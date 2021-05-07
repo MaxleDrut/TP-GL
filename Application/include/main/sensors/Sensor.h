@@ -16,7 +16,7 @@ class Sensor
     vector<Measurement> measurements{};
 
 public:
-    Sensor(string const &identifier, double latitude, double longitude, bool reliable, vector<Measurement> _measurements)
+    Sensor(string const &identifier, double latitude, double longitude, bool reliable, vector<Measurement> _measurements = vector<Measurement>())
     {
         this->identifier = identifier;
         this->latitude = latitude;

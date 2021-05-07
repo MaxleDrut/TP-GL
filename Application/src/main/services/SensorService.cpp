@@ -8,12 +8,14 @@ vector<Attribute> SensorService::getAttributes() {
     return attributes;
 }
 
-Sensor getSensor(string identifier) {
-    for(vector<Sensor>::iterator it = sensors.begin(); it!=sensors.end(); it++) {
+/*Sensor getSensor(string identifier) {
+    /*for(vector<Sensor>::iterator it = sensors.begin(); it!=sensors.end(); it++) {
 
     }
-}
-bool SensorService::loadCSV(string sensorFile, string measurementFile, string attributeFile) {
+   
+}*/
+
+bool SensorService::loadCSV(string & sensorFile, string & measurementFile, string & attributeFile) {
     string line = "";
 
     //Lecture des Sensors
@@ -40,7 +42,8 @@ bool SensorService::loadCSV(string sensorFile, string measurementFile, string at
     while(line!="\0") {
         getline(fluxSensor,line);
         start = end = 0;
-        attributes.push_back(Attribute(readUntilSemicolon(line),readUntilSemicolon(line),readUntilSemicolon(line)));
+        auto attribute = Attribute(readUntilSemicolon(line),readUntilSemicolon(line),readUntilSemicolon(line));
+        attributes.push_back(attribute);
     }
 
     //Lecture des Measurements
@@ -49,7 +52,7 @@ bool SensorService::loadCSV(string sensorFile, string measurementFile, string at
 }
 
 //Allows to read an attribute by returning the substring until the next ;
-string SensorService::readUntilSemicolon(string input) {
+string SensorService::readUntilSemicolon(string & input) {
     string output;
     while(input[end] != ';' && end<100) {
         end++;
