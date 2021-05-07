@@ -1,12 +1,22 @@
 #pragma once
 
 #include <string>
+#include <fstream>
+#include <vector>
+#include "user/Cleaner.h"
+
 using namespace std;
 
-class CleanerController() {
-    public:
-        CleanerController() {}
-        virtual ~CleanerController() {}
+class CleanerService
+{
 
-        bool loadCSV(string file);
+
+    private:
+        vector<Cleaner> cleaners;
+
+    public:
+        CleanerService();
+        virtual ~CleanerService();
+        bool loadCSV(string  & file);
+        vector<Cleaner> getCleaners() const;
 };

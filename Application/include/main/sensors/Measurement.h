@@ -3,45 +3,49 @@
 #include <string>
 #include <ctime>
 #include <memory>
-#include "Sensor.h"
-#include "Attribute.h"
+#include "sensors/Sensor.h"
+#include "sensors/Attribute.h"
 
 using namespace std;
+
+class Sensor;
 
 class Measurement
 {
 private :
     time_t timestamp;
     double value;
-    unique_ptr<Attribute> attribute;
-    unique_ptr<Sensor> sensor;
+    Attribute *attribute;
+    Sensor *sensor;
 
 public:
-    Measurement(time_t const timestamp, double value, Sensor * sensor)
+    Measurement(time_t timestamp, double value, Attribute *attr, Sensor *sens)
     {
         this->timestamp = timestamp;
         this->value = value;
-        this->sensor = sensor;
+        this->sensor = sens;
+        this->attribute = attr;
     }
 
-    virtual ~Measurement()
+    virtual ~Measurement() = default;
+
+    time_t getTimestamp() const
     {
-         delete sensor;
-    }
-
-    time_t getTimestamp () const{
         return timestamp;
     }
 
-    double getValue() const{
+    double getValue() const
+    {
         return value;
     }
 
-    Sensor * getSensor() const{
+    Sensor * getSensor() const
+    {
         return sensor;
     }
 
-    Attribute * getAttribute() const{
+    Attribute * getAttribute() const
+    {
         return attribute;
     }
 };

@@ -3,18 +3,23 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <time.h>
+#include <ctime>
+#include <fstream>
+#include "sensors/Attribute.h"
+#include "sensors/Sensor.h"
+
 using namespace std;
 
-#include "Attribute.h"
-#include "Sensor.h"
-
-// lire users and providers
-
 class SensorService {
+    private :
+        vector<Sensor> sensors;
+        vector<Attribute> attributes;
+
+        int start;
+        int end;
     public :
-        SensorService() {}
-        virtual ~SensorService() {}
+        SensorService() = default;
+        virtual ~SensorService() = default;
 
         bool loadCSV(string sensorFile, string measurementFile, string attributeFile);
         vector<Sensor> getSensors();
@@ -28,5 +33,6 @@ class SensorService {
         double distanceBetweenPositions(double latitudeA, double longitudeA, double latitudeB, double longitudeB);
         string convertValuesAttributesToATMOScore(map<Attribute,double> values);
         vector<Measurement> removeAllMeasurementsFromSensor(vector<Measurement> measurements, Sensor sensor);
+        string readUntilSemicolon(string input);
 
 };

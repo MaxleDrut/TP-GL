@@ -1,40 +1,38 @@
 #pragma once
 
-#include <time.h>
+#include <ctime>
+#include <string>
 
-class Cleaner {
-     private:
-        double latitude;
-        double longitude;
-        time_t start;
-        time_t stop;
+using namespace std;
 
-    public:
-        Cleaner(const double longi, const double lat, const time_t start, const time_t stop) : longitude(longi), latitude(lat), start(start), stop(stop) {
-        }
+class Cleaner
+{
+private:
+    double latitude;
+    double longitude;
+    time_t start;
+    time_t stop;
+    string identifier;
 
-        Cleaner() {
-            longitude = latitude = 0.0;
-            start = stop = NULL;
-        }
+public:
+    Cleaner(const string id, const double longi, const double lat, const time_t start, const time_t stop) : identifier(id),longitude(longi), latitude(lat), start(start), stop(stop) {}
+    Cleaner() {}
 
-        virtual ~Cleaner() {
-        }
+    ~Cleaner() = default;
 
-        virtual const time_t getStart() const{
-            return start;
-        } 
+    time_t getStart() const{
+        return start;
+    }
 
-        virtual const time_t getStop() const {
-            return stop;
-        }
+    time_t getStop() const {
+        return stop;
+    }
 
-        virtual const double getLatitude() const {
-            return latitude;
-        }
+    double getLatitude() const {
+        return latitude;
+    }
 
-        virtual const double getLongitude() const {
-            return longitude;
-        }
-
+    double getLongitude() const {
+        return longitude;
+    }
 };

@@ -1,26 +1,19 @@
 #pragma once
 
 #include <string>
-#include "User.h"
+#include "user/User.h"
 
 using namespace std;
 
 
-class GovernmentUser: User
+class GovernmentUser : User
 {
-    
 public:
-
-    GovernmentUser(string identifier, string password)
+    GovernmentUser(const string &identifier, const string &password)
     {
         this->identifier = identifier;
         this->password = password;
     }
 
-    virtual ~GovernmentUser()
-    {
-
-    }
-    
-
+    virtual ~GovernmentUser() = default;
 };

@@ -2,57 +2,52 @@
 
 #include <string>
 #include <vector>
-#include "Measurement.h"
+#include "sensors/Measurement.h"
 
 using namespace std;
 
-
 class Sensor
 {
-     private :
-        string identifier;
-        double latitude;
-        double longitude;
-        bool reliable;
-        vector<Measurement> measurements;
+ private :
+    string identifier;
+    double latitude;
+    double longitude;
+    bool reliable;
+    vector<Measurement> measurements{};
 
-    public:
+public:
+    Sensor(string const &identifier, double latitude, double longitude, bool reliable, vector<Measurement> _measurements)
+    {
+        this->identifier = identifier;
+        this->latitude = latitude;
+        this->longitude = longitude;
+        this->reliable = reliable;
+        this->measurements = move(_measurements);
+    }
 
-        Sensor(string const identifier, double latitude,double longitude, bool reliable, vector<Measurement> measurements){
-            this->identifier = identifier;
-            this->latitude = latitude;
-            this->longitude = longitude;
-            this->reliable = reliable;
-            this->measurements = move(measurements);
-        }
+    virtual ~Sensor()= default;
 
-        virtual ~Sensor(){
+    string getIdentifier () const{
+        return identifier;
+    }
 
-        }
+    double getLatitude() const{
+        return latitude;
+    }
 
-        string getIdentifier () const{
-            return identifier;
-        }
+    double getLongitude() const{
+        return longitude;
+    }
 
-        double getLatitude() const{
-            return latitude;
-        }
+    bool getReliable() const{
+        return reliable;
+    }
 
-        double getLongitude() const{
-            return longitude;
-        }
+    vector<Measurement> getMeasurements() const{
+        return measurements;
+    }
 
-        bool getReliable() const{
-            return reliable;
-        }
-
-        vector<Measurement> getMeasurements() const{
-            return measurements;
-        }
-
-        void setReliable(bool reliable){
-            this->reliable = reliable;
-        }
-
-
+    void setReliable(bool isReliable){
+        this->reliable = isReliable;
+    }
 };
