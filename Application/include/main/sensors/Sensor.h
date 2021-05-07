@@ -27,7 +27,7 @@ class Sensor
         }
 
         virtual ~Sensor(){
-            delete measurements;
+
         }
 
         string getIdentifier () const{
@@ -56,6 +56,4 @@ class Sensor
 
    
         
-}
-
-
+};
