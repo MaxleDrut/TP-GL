@@ -23,6 +23,7 @@ class SensorService {
 
         bool loadCSV(string sensorFile, string measurementFile, string attributeFile);
         vector<Sensor> getSensors();
+        vector<Attribute> getAttributes();
         Sensor getSensor(string identifier);
         double FR5_malfunctioningAnalysis(Sensor sensorToCheck);
         string FR8_quality(double latitude, double longitude, time_t time);
