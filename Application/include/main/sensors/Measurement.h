@@ -4,6 +4,7 @@
 #include <ctime>
 #include <memory>
 #include "Sensor.h"
+#include "Attribute.h"
 
 using namespace std;
 
@@ -14,7 +15,9 @@ class Measurement
     private :
         time_t timestamp;
         double value;
+        unique_ptr<Attribute> attribute;
         unique_ptr<Sensor> sensor;
+
 
     public:
 
@@ -40,5 +43,8 @@ class Measurement
             return sensor;
         }
 
+        Attribute * getAttribute() const{
+            return attribute;
+        }
 
 };
