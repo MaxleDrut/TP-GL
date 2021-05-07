@@ -9,50 +9,46 @@ using namespace std;
 
 class Sensor
 {
-     private :
-        string identifier;
-        double latitude;
-        double longitude;
-        bool reliable;
-        vector<Measurement> measurements;
+ private :
+    string identifier;
+    double latitude;
+    double longitude;
+    bool reliable;
+    vector<Measurement> measurements;
 
-    public:
+public:
 
-        Sensor(string const identifier, double latitude,double longitude, bool reliable, vector<Measurement> measurements){
-            this->identifier = identifier;
-            this->latitude = latitude;
-            this->longitude = longitude;
-            this->reliable = reliable;
-            this->measurements = move(measurements);
-        }
+    Sensor(string const &identifier, double latitude,double longitude, bool reliable, vector<Measurement> measurements){
+        this->identifier = identifier;
+        this->latitude = latitude;
+        this->longitude = longitude;
+        this->reliable = reliable;
+        this->measurements = move(measurements);
+    }
 
-        virtual ~Sensor(){
+    virtual ~Sensor()= default;
 
-        }
+    string getIdentifier () const{
+        return identifier;
+    }
 
-        string getIdentifier () const{
-            return identifier;
-        }
+    double getLatitude() const{
+        return latitude;
+    }
 
-        double getLatitude() const{
-            return latitude;
-        }
+    double getLongitude() const{
+        return longitude;
+    }
 
-        double getLongitude() const{
-            return longitude;
-        }
+    bool getReliable() const{
+        return reliable;
+    }
 
-        bool getReliable() const{
-            return reliable;
-        }
+    vector<Measurement> getMeasurements() const{
+        return measurements;
+    }
 
-        vector<Measurement> getMeasurements() const{
-            return measurements;
-        }
-
-        void setReliable(bool reliable){
-            this->reliable = reliable;
-        }
-
-
+    void setReliable(bool isReliable){
+        this->reliable = isReliable;
+    }
 };

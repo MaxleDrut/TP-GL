@@ -11,22 +11,16 @@ using namespace std;
 
 class ProviderUser: User
 {
-
 private:
     vector<Cleaner> cleaners;
-    
 public:
-
-    ProviderUser(string identifier, string password)
+    ProviderUser(string &identifier, string &password)
     {
         this->identifier = identifier;
         this->password = password;
     }
 
-    virtual ~ProviderUser()
-    {
-        
-    }
+    virtual ~ProviderUser() = default;
 
     vector<Cleaner> getCleaners()
     {
@@ -37,5 +31,4 @@ public:
     {
         this->cleaners.push_back(cleaner);
     }
-
 };

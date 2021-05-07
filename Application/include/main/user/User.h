@@ -12,14 +12,12 @@ enum UserTypes {
 
 class User
 {
-
 protected:
     string identifier;
     string password;
     
 public:
-
-    User() {}
+    User() = default;
 
     string getIdentifier()
     {
@@ -30,5 +28,4 @@ public:
     {
         return this->password;
     }
-
 };
