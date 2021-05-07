@@ -5,7 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "User.h"
-#include "IndiviualUser.h"
+#include "IndividualUser.h"
 #include "ProviderUser.h"
 #include "GovernmentUser.h"
 
