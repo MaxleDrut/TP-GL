@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "User.h"
-#include "Sensor.h"
+#include "user/User.h"
+#include "sensors/Sensor.h"
 
 using namespace std;
 
