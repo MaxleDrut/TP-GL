@@ -27,7 +27,7 @@ class Sensor
         }
 
         virtual ~Sensor(){
-            delete measurements;
+
         }
 
         string getIdentifier () const{
@@ -53,7 +53,6 @@ class Sensor
         void setReliable(bool reliable){
             this->reliable = reliable;
         }
-
 
 
 };
