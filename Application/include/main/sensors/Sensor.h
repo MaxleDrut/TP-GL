@@ -54,8 +54,6 @@ class Sensor
             this->reliable = reliable;
         }
 
-   
-        
-}
 
 
+};

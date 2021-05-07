@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <time.h>
+#include <ctime>
 #include <memory>
 #include "Sensor.h"
 
@@ -39,6 +39,6 @@ class Measurement
         Sensor * getSensor() const{
             return sensor;
         }
-    
-        
-}
+
+
+};
