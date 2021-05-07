@@ -9,6 +9,8 @@ using namespace std;
 #include "Attribute.h"
 #include "Sensor.h"
 
+// lire users and providers
+
 class SensorService {
     public :
         SensorService() {}
