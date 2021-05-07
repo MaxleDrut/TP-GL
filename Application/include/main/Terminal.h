@@ -16,7 +16,7 @@ private:
     string userPassword;
 
 public:
-    Terminal(): selectedSensorId(nullptr), userId(nullptr), userPassword(nullptr);
+    Terminal(): selectedSensorId(nullptr), userId(nullptr), userPassword(nullptr) {};
 
     start();
 

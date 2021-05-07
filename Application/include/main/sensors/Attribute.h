@@ -1,6 +1,7 @@
 #pragma once
 
 #include <String>
+
 using namespace std;
 
 class Attribute {
@@ -10,23 +11,21 @@ class Attribute {
         string identifier;
         
     public:
-        Attribute(const string unit, const string desc, const string iden) : unit(unit), description(desc), identifier(iden) {
-
-        }
+        Attribute(const string unit, const string desc, const string iden) : unit(unit), description(desc), identifier(iden) {};
 
         Attribute() {
             unit = description = identifier = nullptr;
         }
 
-        virtual const string getUnit() const {
+        virtual string getUnit() const {
             return unit;
         }
 
-        virtual const string getDescription() const {
+        virtual string getDescription() const {
             return description;
         }
 
-        virtual const string getIdentifier() const {
+        virtual string getIdentifier() const {
             return identifier;
         }
 
