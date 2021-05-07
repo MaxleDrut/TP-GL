@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "User.h"
+#include "Sensor.h"
 
 using namespace std;
 
@@ -12,7 +13,7 @@ class IndividualUser: User
 {
 
 private:
-
+    vector<Sensor> sensors;
     
 public:
 
@@ -25,6 +26,16 @@ public:
     virtual ~IndividualUser()
     {
         
+    }
+
+    vector<Sensor> getSensors()
+    {
+        return this->sensors;
+    }
+
+    void addSensor(Sensor sensor)
+    {
+        this->sensors.push_back(sensor);
     }
 
 };
