@@ -8,43 +8,40 @@
 
 using namespace std;
 
-
 class Measurement
 {
+private :
+    time_t timestamp;
+    double value;
+    unique_ptr<Attribute> attribute;
+    unique_ptr<Sensor> sensor;
 
-    private :
-        time_t timestamp;
-        double value;
-        unique_ptr<Attribute> attribute;
-        unique_ptr<Sensor> sensor;
+public:
+    Measurement(time_t const timestamp, double value, Sensor * sensor)
+    {
+        this->timestamp = timestamp;
+        this->value = value;
+        this->sensor = sensor;
+    }
 
+    virtual ~Measurement()
+    {
+         delete sensor;
+    }
 
-    public:
+    time_t getTimestamp () const{
+        return timestamp;
+    }
 
-        Measurement(time_t const timestamp, double value, Sensor * sensor){
-            this->timestamp = timestamp;
-            this->value = value;
-            this->sensor = sensor;
-        }
+    double getValue() const{
+        return value;
+    }
 
-        virtual ~Measurement(){
-             delete sensor;
-        }
+    Sensor * getSensor() const{
+        return sensor;
+    }
 
-        time_t getTimestamp () const{
-            return timestamp;
-        }
-
-        double getValue() const{
-            return value;
-        }
-
-        Sensor * getSensor() const{
-            return sensor;
-        }
-
-        Attribute * getAttribute() const{
-            return attribute;
-        }
-
+    Attribute * getAttribute() const{
+        return attribute;
+    }
 };

@@ -16,6 +16,9 @@ add_executable(Application_main
         include/main/user/User.h
         include/main/utils/utils.h
         include/main/Terminal.h
+        include/main/services/CleanerService.h
+        include/main/services/SensorService.h
+        include/main/services/UserService.h
 
         src/main/main.cpp
         src/main/Terminal.cpp
@@ -34,6 +37,9 @@ add_executable(Application_tests
         include/main/user/User.h
         include/main/utils/utils.h
         include/main/Terminal.h
+        include/main/services/CleanerService.h
+        include/main/services/SensorService.h
+        include/main/services/UserService.h
 
         src/main/Terminal.cpp
 
