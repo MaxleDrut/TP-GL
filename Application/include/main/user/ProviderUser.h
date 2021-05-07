@@ -28,4 +28,14 @@ public:
         
     }
 
+    vector<Cleaner> getCleaners()
+    {
+        return this->cleaners;
+    }
+
+    void addCleaner(Cleaner cleaner)
+    {
+        this->cleaners.push_back(cleaner);
+    }
+
 };

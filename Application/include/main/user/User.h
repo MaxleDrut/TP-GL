@@ -4,6 +4,11 @@
 
 using namespace std;
 
+enum UserTypes {
+    INDIVIDUAL,
+    PROVIDER,
+    GOVERNMENT
+};
 
 class User
 {
@@ -14,6 +19,16 @@ protected:
     
 public:
 
+    User() {}
 
+    string getIdentifier()
+    {
+        return this->identifier;
+    }
+
+    string getPassword()
+    {
+        return this->password;
+    }
 
 };
