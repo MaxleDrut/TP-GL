@@ -24,10 +24,7 @@ public:
         this->sensor = sensor;
     }
 
-    virtual ~Measurement()
-    {
-         delete sensor;
-    }
+    virtual ~Measurement() = default;
 
     time_t getTimestamp () const{
         return timestamp;

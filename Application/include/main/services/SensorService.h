@@ -3,16 +3,16 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <time.h>
-using namespace std;
-
+#include <ctime>
 #include "Attribute.h"
 #include "Sensor.h"
 
+using namespace std;
+
 class SensorService {
     public :
-        SensorService() {}
-        virtual ~SensorService() {}
+        SensorService() = default;
+        virtual ~SensorService() = default;
 
         bool loadCSV(string sensorFile, string measurementFile, string attributeFile);
         vector<Sensor> getSensors();
