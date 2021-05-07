@@ -5,8 +5,8 @@
 #include <map>
 #include <ctime>
 #include <fstream>
-#include "Attribute.h"
-#include "Sensor.h"
+#include "sensors/Attribute.h"
+#include "sensors/Sensor.h"
 
 using namespace std;
 
