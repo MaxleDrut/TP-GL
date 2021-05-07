@@ -11,6 +11,9 @@ using namespace std;
 
 class SensorService {
     public :
+        SensorService() {}
+        virtual ~SensorService() {}
+
         bool loadCSV(string sensorFile, string measurementFile, string attributeFile);
         vector<Sensor> getSensors();
         Sensor getSensor(string identifier);
