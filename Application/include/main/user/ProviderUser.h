@@ -9,7 +9,7 @@
 using namespace std;
 
 
-class ProviderUser: User
+class ProviderUser: public User
 {
 private:
     vector<Cleaner> cleaners;

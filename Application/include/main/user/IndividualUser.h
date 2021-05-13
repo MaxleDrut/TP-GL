@@ -9,7 +9,7 @@
 using namespace std;
 
 
-class IndividualUser: User
+class IndividualUser: public User
 {
 private:
     vector<Sensor> sensors{};
