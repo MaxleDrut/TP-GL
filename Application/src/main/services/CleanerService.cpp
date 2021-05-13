@@ -50,16 +50,17 @@ bool CleanerService::loadCSV(string & file){
                 stop+=ligne[pos];
                 pos++;
             }
+
+            
             tm requestTimeStart = {};
             istringstream rqTimeStreamStart(start);
             rqTimeStreamStart >> get_time(&requestTimeStart, "%Y-%m-%d% %H:%M:%S");
-
             tm requestTimeStop = {};
             istringstream rqTimeStreamStop(stop);
             rqTimeStreamStop >> get_time(&requestTimeStop, "%Y-%m-%d% %H:%M:%S");
-
             Cleaner cleaner (id,stof(latitude),stof(longitude),mktime(&requestTimeStart),mktime(&requestTimeStop));
             cleaners.push_back(cleaner);
+            getline(flux,ligne);
         }
 
         return true;

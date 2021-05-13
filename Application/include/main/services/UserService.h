@@ -28,7 +28,7 @@ class UserService
 
         vector<IndividualUser> getIndividualUsers () const;
 
-        vector<ProviderUser> getProviderUsers const;
+        vector<ProviderUser> getProviderUsers() const;
 
         UserTypes getPrivilege(const string identifier) const;
 
