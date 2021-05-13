@@ -17,6 +17,7 @@ class UserService
 
     private :
         vector<User> users;
+        string loadInfo(const string ligne, int & pos);
 
     public:
 

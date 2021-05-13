@@ -6,7 +6,7 @@
 using namespace std;
 
 
-class GovernmentUser : User
+class GovernmentUser : public User
 {
 public:
     GovernmentUser(const string &identifier, const string &password)

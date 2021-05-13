@@ -7,7 +7,8 @@ using namespace std;
 enum UserTypes {
     INDIVIDUAL,
     PROVIDER,
-    GOVERNMENT
+    GOVERNMENT,
+    AUCUN
 };
 
 class User
