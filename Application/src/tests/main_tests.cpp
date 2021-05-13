@@ -1,16 +1,32 @@
 #include <assert.h>
 #include <iostream>
+#include <string>
 
+using namespace std;
 #include "CleanerServices_test.h"
+#include "SensorService_test.h"
 
 #define NDEBUG
 
 void tests_CleanersLoadCSV();
+void tests_SensorService();
 
 int main()
 {
-    tests_CleanersLoadCSV();
+    //tests_CleanersLoadCSV();
+    tests_SensorService();
     return 0;
+}
+
+
+void tests_SensorService() {
+    SensorService_test SensServt;
+
+    string fileSensor = "res/test/sensors.csv";
+    
+    SensServt.test_loadCSV(fileSensor);
+    
+    cout<<"Test done"<<endl;
 }
 
 
