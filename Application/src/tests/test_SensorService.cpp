@@ -1,4 +1,4 @@
-#include "tests/test_ServiceSensor.h"
+#include "test_ServiceSensor.h"
 
 int testService()
 {

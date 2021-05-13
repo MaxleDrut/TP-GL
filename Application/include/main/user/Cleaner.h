@@ -20,6 +20,10 @@ public:
 
     ~Cleaner() = default;
 
+    string getIdentifier() const{
+        return identifier;
+    }
+    
     time_t getStart() const{
         return start;
     }
