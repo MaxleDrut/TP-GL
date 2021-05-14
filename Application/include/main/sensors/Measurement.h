@@ -44,8 +44,15 @@ public:
         return sensor;
     }
 
+
     Attribute * getAttribute() const
     {
         return attribute;
+    }
+
+    
+    void  setSensor(Sensor * sensor)
+    {
+        this->sensor = sensor;
     }
 };

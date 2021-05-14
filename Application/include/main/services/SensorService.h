@@ -21,7 +21,6 @@ class SensorService {
         SensorService() = default;
         virtual ~SensorService() = default;
 
-        bool loadCSV(string & sensorFile, string & measurementFile, string & attributeFile);
         vector<Sensor> getSensors();
         vector<Attribute> getAttributes();
         Sensor getSensor(string identifier);
@@ -34,6 +33,5 @@ class SensorService {
         double distanceBetweenPositions(double latitudeA, double longitudeA, double latitudeB, double longitudeB);
         string convertValuesAttributesToATMOScore(map<Attribute,double> values);
         vector<Measurement> removeAllMeasurementsFromSensor(vector<Measurement> measurements, Sensor sensor);
-        string readUntilSemicolon(string & input);
 
 };

@@ -3,43 +3,32 @@
 #include <string>
 
 using namespace std;
-#include "CleanerServices_test.h"
-#include "SensorService_test.h"
+#include "LoadService_test.h"
 
 #define NDEBUG
 
-void tests_CleanersLoadCSV();
-void tests_SensorService();
+void tests_LoadService();
 
 int main()
 {
-    //tests_CleanersLoadCSV();
-    tests_SensorService();
+    tests_LoadService();
     return 0;
 }
 
 
-void tests_SensorService() {
-    SensorService_test SensServt;
+void tests_LoadService() {
+    LoadService_test loadServcie;
 
-    string fileSensor = "res/test/sensors.csv";
+    string fileSensor = "res/test/sensors_test.csv";
+    string file2 = "res/test/measurements_test.csv";
+    string file3 = "res/test/attributes.csv";
     
-    SensServt.test_loadCSV(fileSensor);
+    loadServcie.test_loadSensors(fileSensor,file2,file3);
     
     cout<<"Test done"<<endl;
-}
 
-
-void tests_CleanersLoadCSV(){
-    CleanerServices_test * testsCleaners = new  CleanerServices_test();
-
-    //Test avec la bonne file
     string file1 = "res/test/cleaners.csv";
-    testsCleaners->test_loadCSV(file1);
+    loadServcie.test_loadCleaners(file1);
 
-    /*Test avec une mauvaise file
-    string file2 = "aaaa.csv";
-    testsCleaners->test_loadCSV(file2);*/
-
-    delete(testsCleaners);
 }
+
