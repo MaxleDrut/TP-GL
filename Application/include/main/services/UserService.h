@@ -17,7 +17,6 @@ class UserService
 
     private :
         vector<User> users;
-        string loadInfo(const string ligne, int & pos);
 
     public:
 
@@ -32,8 +31,6 @@ class UserService
         vector<ProviderUser> getProviderUsers() const;
 
         UserTypes getPrivilege(const string identifier) const;
-
-        bool loadCSV (const string userFile, const string providerFile, const string governmentFile, const string passwordFile);
 
         User authentificate(const string login, const string pass);
         

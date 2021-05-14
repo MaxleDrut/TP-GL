@@ -17,6 +17,5 @@ class CleanerService
     public:
         CleanerService();
         virtual ~CleanerService();
-        bool loadCSV(string  & file);
         vector<Cleaner> getCleaners() const;
 };

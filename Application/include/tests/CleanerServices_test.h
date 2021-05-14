@@ -14,5 +14,4 @@ class CleanerServices_test
     public:
         CleanerServices_test();
         virtual ~CleanerServices_test();
-        void test_loadCSV(string &file);
 };
