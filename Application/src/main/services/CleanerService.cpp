@@ -9,6 +9,6 @@ CleanerService::CleanerService(){}
 CleanerService::~CleanerService(){}
 
 
-vector<Cleaner> CleanerService::getCleaners() const{
+vector<Cleaner*> CleanerService::getCleaners() const{
     return cleaners;
 }

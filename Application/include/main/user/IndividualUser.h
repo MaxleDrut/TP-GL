@@ -12,7 +12,7 @@ using namespace std;
 class IndividualUser: public User
 {
 private:
-    vector<Sensor> sensors{};
+    vector<Sensor *> sensors{};
     
 public:
     IndividualUser(string &identifier, string &password)
@@ -20,15 +20,15 @@ public:
         this->identifier = identifier;
         this->password = password;
     }
-
+    
     virtual ~IndividualUser() = default;
 
-    vector<Sensor> getSensors()
+    vector<Sensor *> getSensors()
     {
         return this->sensors;
     }
 
-    void addSensor(Sensor sensor)
+    void addSensor(Sensor * sensor)
     {
         this->sensors.push_back(sensor);
     }

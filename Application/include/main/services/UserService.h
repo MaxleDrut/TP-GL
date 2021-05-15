@@ -16,7 +16,7 @@ class UserService
 {
 
     private :
-        vector<User> users;
+        vector<User *> users;
 
     public:
 
@@ -24,11 +24,11 @@ class UserService
 
         virtual ~UserService();
 
-        vector<User> getUsers () const;
+        vector<User *> getUsers () const;
 
-        vector<IndividualUser> getIndividualUsers () const;
+        vector<IndividualUser *> getIndividualUsers () const;
 
-        vector<ProviderUser> getProviderUsers() const;
+        vector<ProviderUser *> getProviderUsers() const;
 
         UserTypes getPrivilege(const string identifier) const;
 

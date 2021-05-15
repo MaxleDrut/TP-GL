@@ -12,7 +12,7 @@ using namespace std;
 class ProviderUser: public User
 {
 private:
-    vector<Cleaner> cleaners;
+    vector<Cleaner *> cleaners;
 public:
     ProviderUser(string &identifier, string &password)
     {
@@ -22,12 +22,12 @@ public:
 
     virtual ~ProviderUser() = default;
 
-    vector<Cleaner> getCleaners()
+    vector<Cleaner *> getCleaners()
     {
         return this->cleaners;
     }
 
-    void addCleaner(Cleaner cleaner)
+    void addCleaner(Cleaner * cleaner)
     {
         this->cleaners.push_back(cleaner);
     }

@@ -12,10 +12,10 @@ class CleanerService
 
 
     private:
-        vector<Cleaner> cleaners;
+        vector<Cleaner *> cleaners;
 
     public:
         CleanerService();
         virtual ~CleanerService();
-        vector<Cleaner> getCleaners() const;
+        vector<Cleaner *> getCleaners() const;
 };
