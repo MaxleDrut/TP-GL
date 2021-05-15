@@ -249,11 +249,11 @@ string LoadService::loadInfo(const string line, int & pos){
 UserTypes LoadService::getPrivilege(const string identifier) const{
     string id = identifier.substr(0,identifier.size()-1);
     if(id=="User"){
-        return INDIVIDUAL;
+        return UserTypes::INDIVIDUAL;
     }else if(id=="Provider"){
-        return PROVIDER;
+        return UserTypes::PROVIDER;
     }else if(id=="Government"){
-        return GOVERNMENT;
+        return UserTypes::GOVERNMENT;
     }
-    return AUCUN;
+    return UserTypes::NONE;
 }
