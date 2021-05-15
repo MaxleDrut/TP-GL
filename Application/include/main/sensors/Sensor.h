@@ -13,16 +13,15 @@ class Sensor
     double latitude;
     double longitude;
     bool reliable;
-    vector<Measurement> measurements{};
+    vector<Measurement *> measurements{};
 
 public:
-    Sensor(string const &identifier, double latitude, double longitude, bool reliable, vector<Measurement> _measurements = vector<Measurement>())
+    Sensor(string const &identifier, double latitude, double longitude, bool reliable)
     {
         this->identifier = identifier;
         this->latitude = latitude;
         this->longitude = longitude;
         this->reliable = reliable;
-        this->measurements = move(_measurements);
     }
 
     virtual ~Sensor()= default;
@@ -43,11 +42,15 @@ public:
         return reliable;
     }
 
-    vector<Measurement> getMeasurements() const{
+    vector<Measurement *> getMeasurements() const{
         return measurements;
     }
 
     void setReliable(bool isReliable){
         this->reliable = isReliable;
+    }
+
+    void addMeasurement(Measurement  * measurement){
+        this->measurements.push_back(measurement);
     }
 };

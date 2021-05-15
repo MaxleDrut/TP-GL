@@ -45,8 +45,8 @@ bool LoadService::loadCleaners(string & file){
             istringstream rqTimeStreamStop(stop);
             rqTimeStreamStop >> get_time(&requestTimeStop, "%Y-%m-%d% %H:%M:%S");
 
-            Cleaner cleaner (id,stof(latitude),stof(longitude),mktime(&requestTimeStart),mktime(&requestTimeStop));
-            cleaners.push_back(cleaner);
+           
+            cleaners.push_back(new Cleaner(id,stof(latitude),stof(longitude),mktime(&requestTimeStart),mktime(&requestTimeStop)));
             getline(flux,line);
         }
         
@@ -74,12 +74,26 @@ bool LoadService::loadSensors(string & sensorFile, string & measurementFile, str
             string id = loadInfo(line,pos);
             string unit = loadInfo(line,pos);
             string description = loadInfo(line,pos);
-            Attribute attribute(unit,description,id);
-            attributes.push_back(attribute);
+            attributes.push_back(new Attribute(unit,description,id));
             
             getline(fluxAttribute,line);
         }
 
+       
+       //Sensors
+        getline(fluxSensor,line);
+        while(line!="\0") {
+            int pos=0;
+            string id = loadInfo(line,pos);
+            string latitude = loadInfo(line,pos);
+            string longitude = loadInfo(line,pos);
+
+            sensors.push_back(new Sensor(id,stof(latitude),stof(longitude),true));
+
+            getline(fluxSensor,line);
+        }
+
+        
         //Measurements
         getline(fluxMeasurement,line);
         while(line!="\0") {
@@ -94,41 +108,19 @@ bool LoadService::loadSensors(string & sensorFile, string & measurementFile, str
             rqTimeStreamDate >> get_time(&requestTimeDate, "%Y-%m-%d% %H:%M:%S");
             
             for(int i =0 ; i<attributes.size(); i++){
-                if(attributeId==attributes[i].getIdentifier()){
-                   Measurement measurement(mktime(&requestTimeDate),stof(value),&attributes[i], nullptr);
-                   measurements.push_back(measurement);
+                if(attributeId==attributes[i]->getIdentifier()){
+                   measurements.push_back(new Measurement(mktime(&requestTimeDate),stof(value),attributes[i], nullptr));
+                }
+            }
+
+            for(int i =0 ; i<sensors.size(); i++){
+                if(sensorId==sensors[i]->getIdentifier()){
+                   measurements[measurements.size()-1]->setSensor(sensors[i]);
+                   sensors[i]->addMeasurement(measurements[measurements.size()-1]);
                 }
             }
             
             getline(fluxMeasurement,line);
-        }
-    
-       //Sensors
-        getline(fluxSensor,line);
-        while(line!="\0") {
-            int pos=0;
-            string id = loadInfo(line,pos);
-            string latitude = loadInfo(line,pos);
-            string longitude = loadInfo(line,pos);
-            
-           /* vector<Measurement> measurementsSensor;
-            for(int i =0 ; i<measurements.size(); i++){
-                
-                if(id==measurements[i].getSensor()->getIdentifier()){
-                   measurementsSensor.push_back(measurements[i]);
-                }
-            }
-            
-            Sensor sensor(id,stof(latitude),stof(longitude),true,measurementsSensor);
-            sensors.push_back(sensor);
-            
-            for(int i =0 ; i<measurements.size(); i++){
-                if(id==measurements[i].getSensor()->getIdentifier()){
-                   measurements[i].setSensor(&sensor);
-                }
-            }*/
-
-            getline(fluxSensor,line);
         }
 
         fluxAttribute.close();
@@ -161,15 +153,16 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
             string id = loadInfo(line,pos);
             string password=loadInfo(line,pos);
             UserTypes usertype = getPrivilege(id);
+            
             if(usertype==INDIVIDUAL){
-                IndividualUser user (id,password);
-                users.push_back(user);
+                //IndividualUser user (id,password);
+                users.push_back(new IndividualUser(id,password));
             }else if(usertype == PROVIDER){
-                ProviderUser user (id,password);
-                users.push_back(user);
+                //ProviderUser user (id,password);
+                users.push_back(new ProviderUser(id,password));
             }else if(usertype == GOVERNMENT){
-                GovernmentUser user (id,password);
-                users.push_back(user);
+               // GovernmentUser user (id,password);
+                users.push_back(new GovernmentUser(id,password));
             }
             getline(fluxPassword,line);
         }
@@ -181,15 +174,10 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
             string id = loadInfo(line,pos);
             string sensorId = loadInfo(line,pos);
             for(int i =0; i<users.size() ; i++){
-                if(users[i].getIdentifier() == id){
+                if(users[i]->getIdentifier() == id){
                     for(int j=0; j<sensors.size(); j++){
-                        if(sensorId==sensors[j].getIdentifier()){
-                            string id= users[i].getIdentifier();
-                            string password =users[i].getPassword();
-                            IndividualUser individual(id,password);                            
-                            users.erase(users.begin()+i);
-                            individual.addSensor(sensors[j]);
-                            users.insert(users.begin()+i,individual);
+                        if(sensorId==sensors[j]->getIdentifier()){
+                            (static_cast<IndividualUser *>(users[i]))->addSensor(sensors[j]);
                         }
                     }
                 }
@@ -197,6 +185,7 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
             getline(fluxUser,line);
         }
 
+        
         //Provider Users
         getline(fluxProvider,line);
         while(line!="\0"){
@@ -204,15 +193,10 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
             string id = loadInfo(line,pos);
             string cleanerId = loadInfo(line,pos);
             for(int i =0; i<users.size() ; i++){
-                if(users[i].getIdentifier() == id){
+                if(users[i]->getIdentifier() == id){
                     for(int j=0; j<cleaners.size(); j++){
-                        if(cleanerId==cleaners[j].getIdentifier()){
-                            string id= users[i].getIdentifier();
-                            string password =users[i].getPassword();
-                            ProviderUser provider(id,password);                            
-                            users.erase(users.begin()+i);
-                            provider.addCleaner(cleaners[j]);
-                            users.insert(users.begin()+i,provider);
+                        if(cleanerId==cleaners[j]->getIdentifier()){
+                            (static_cast<ProviderUser *>(users[i]))->addCleaner(cleaners[j]);
                         }
                     }
                 }
@@ -230,23 +214,23 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
 }
 
 
-vector<Cleaner> LoadService::getCleaners(){
+vector<Cleaner *> LoadService::getCleaners(){
     return cleaners;
 }
 
-vector<User> LoadService::getUsers(){
+vector<User *> LoadService::getUsers(){
     return users;
 }
 
-vector<Sensor> LoadService::getSensors(){
+vector<Sensor *> LoadService::getSensors(){
     return sensors;
 }
 
-vector<Attribute> LoadService::getAttributes(){
+vector<Attribute *> LoadService::getAttributes(){
     return attributes;
 }
 
-vector<Measurement> LoadService::getMeasurements(){
+vector<Measurement *> LoadService::getMeasurements(){
     return measurements;
 }
 

@@ -1,10 +1,10 @@
 #include "services/SensorService.h"
 
-vector<Sensor> SensorService::getSensors() {
+vector<Sensor *> SensorService::getSensors() {
     return sensors;
 }
 
-vector<Attribute> SensorService::getAttributes() {
+vector<Attribute *> SensorService::getAttributes() {
     return attributes;
 }
 

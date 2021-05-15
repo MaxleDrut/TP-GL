@@ -20,11 +20,11 @@ class LoadService
 
 
     private:
-        vector<Cleaner> cleaners;
-        vector<User> users;
-        vector<Sensor> sensors;
-        vector<Attribute> attributes;
-        vector<Measurement> measurements;
+        vector<Cleaner *> cleaners;
+        vector<User *> users;
+        vector<Sensor *> sensors;
+        vector<Attribute *> attributes;
+        vector<Measurement *> measurements;
 
         string loadInfo(const string ligne, int & pos);
 
@@ -36,10 +36,10 @@ class LoadService
         bool loadCleaners(string  & file);
         bool loadSensors(string & sensorFile, string & measurementFile, string & attributeFile);
         bool loadUsers(const string userFile, const string providerFile, const string governmentFile, const string passwordFile);
-        vector<Cleaner> getCleaners();
-        vector<User> getUsers();
-        vector<Sensor> getSensors();
-        vector<Attribute> getAttributes();
-        vector<Measurement> getMeasurements();
+        vector<Cleaner *> getCleaners();
+        vector<User *> getUsers();
+        vector<Sensor *> getSensors();
+        vector<Attribute *> getAttributes();
+        vector<Measurement *> getMeasurements();
 
 };
