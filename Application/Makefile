@@ -2,7 +2,7 @@ BINS=bin/main bin/tests
 INCLUDE=include/main
 
 CC=g++
-CFLAGS=-I $(INCLUDE) -march=native -O3 -D MAP -D NDEBUG
+CFLAGS=-I $(INCLUDE) -march=native -O3
 LDLIBS=
 LDFLAGS=--ansi --pedantic -Wall --std=c++11
 
@@ -28,11 +28,11 @@ bin/tests: $(OBJS_tests) $(filter-out $(OBJS_tests_excluded_from_main),$(OBJS_ma
 
 obj/%.o: src/%.cpp
 	mkdir -p $(dir $@)
-	$(CC) -o $@ -c $^ $(CFLAGS)
+	$(CC) -o $@ -c $^ $(CFLAGS) -D NDEBUG
 
 obj/tests/%.o: src/tests/%.cpp
 	mkdir -p $(dir $@)
-	$(CC) -o $@ -c $^ $(CFLAGS) -I include/tests
+	$(CC) -o $@ -c $^ $(CFLAGS) -I include/tests -D MAP
 
 clean:
 	rm -rf bin/* obj/*
