@@ -47,8 +47,8 @@ int LoadService_test::test_loadUsers(string & userFile, string & providerFile, s
     assert(lUsers.size()==6);
 
     for(int i=0; i<lUsers.size(); i++){
-        assert(lUsers[i]->getIdentifier()!=NULL && lUsers[i]->getIdentifier()!=string.empty());
-        assert(lUsers[i]->getPassword()!=NULL && lUsers[i]->getPassword()!=string.empty());
+        assert(!lUsers[i]->getIdentifier().empty());
+        assert(!lUsers[i]->getPassword().empty());
 
     }
 
