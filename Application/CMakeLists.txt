@@ -46,6 +46,7 @@ add_executable(Application_tests
         src/tests/main_tests.cpp
         )
 
+include_directories(include/main)
 target_include_directories(Application_main PUBLIC include/main)
 target_include_directories(Application_tests PUBLIC include/tests include/main)
 

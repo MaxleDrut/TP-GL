@@ -8,7 +8,7 @@ enum UserTypes {
     INDIVIDUAL,
     PROVIDER,
     GOVERNMENT,
-    AUCUN
+    NONE
 };
 
 class User

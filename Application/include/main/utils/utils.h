@@ -3,11 +3,15 @@
 // colors
 #define LIGHT_ORANGE "\e[38;5;216m"
 #define TURQUOISE "\e[38;5;43m"
-#define LIGHT_BLUE "\e[38;5;153m"
+#define PALE_BLUE "\e[38;5;159m"
 #define RED "\e[38;5;196m"
 #define NO_COLOR "\e[0m"
 #define GREY "\e[38;5;8m"
 #define SILVER "\e[38;5;7m"
+#define LIGHT_BLUE "\e[38;5;32m"
+
+#define BOLD "\e[1m"
+#define UNDERLINE "\e[4m"
 
 // debug mag
 #ifdef MAP
@@ -17,6 +21,4 @@
 #define debug(expression) ((void)0)
 #define debugtv(exp, var) ((void)0)
 #endif
-
-typedef unsigned long size_t;
 

@@ -15,11 +15,12 @@ private:
     string selectedSensorId;
     string userId;
     string userPassword;
+    UserTypes userType;
 
 public:
-    Terminal(): selectedSensorId(nullptr), userId(nullptr), userPassword(nullptr) {};
+    Terminal(): userType(UserTypes::NONE) {};
 
-    void start();
+    [[noreturn]] void start();
 
 private:
     void printAuthPrompt();
@@ -27,9 +28,10 @@ private:
     void printMeasurement(const Measurement& measurement);
     void printAirQuality(double airQuality);
     void printIndividualUser(const IndividualUser * const user);
-    void printUserMenu(UserTypes userType);
-    void promptUser();
-    void printSensorMenu(UserTypes userType);
-    void promptSensor();
+    void printUserMenu(UserTypes privilegeLevel);
+    vector<string> promptUser(const string &prefix);
+    bool processCommand(const vector<string>& command);
+    void printSensorMenu(UserTypes privilegeLevel);
+    bool processSensorCommand(const vector<string> &command);
     void printCleaner(const Cleaner * const cleaner);
 };

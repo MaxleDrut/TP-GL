@@ -27,11 +27,11 @@ User UserService::authentificate(const string login, const string pass)
 UserTypes UserService::getPrivilege(const string identifier) const{
     string id = identifier.substr(0,identifier.size()-1);
     if(id=="User"){
-        return INDIVIDUAL;
+        return UserTypes::INDIVIDUAL;
     }else if(id=="Provider"){
-        return PROVIDER;
+        return UserTypes::PROVIDER;
     }else if(id=="Government"){
-        return GOVERNMENT;
+        return UserTypes::GOVERNMENT;
     }
-    return AUCUN;
+    return UserTypes::NONE;
 }
