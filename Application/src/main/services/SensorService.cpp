@@ -1,5 +1,11 @@
 #include "services/SensorService.h"
 
+
+SensorService::SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors){
+    this->attributes = move(attributes);
+    this->sensors = move(sensors);
+}
+
 vector<Sensor *> SensorService::getSensors() {
     return sensors;
 }

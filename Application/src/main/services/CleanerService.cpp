@@ -4,7 +4,9 @@
 #include "services/CleanerService.h"
 using namespace std;
 
-CleanerService::CleanerService(){}
+CleanerService::CleanerService(vector<Cleaner *> cleaners){
+    this->cleaners=move(cleaners);
+}
 
 CleanerService::~CleanerService(){}
 

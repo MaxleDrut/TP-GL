@@ -4,14 +4,17 @@
 
 using namespace std;
 #include "LoadService_test.h"
+#include "UserService_test.h"
 
 #define NDEBUG
 
 void tests_LoadService();
+void tests_UserService();
 
 int main()
 {
     tests_LoadService();
+    tests_UserService();
     return 0;
 }
 
@@ -35,5 +38,15 @@ void tests_LoadService() {
     
     cout<<"Test done"<<endl;
 
+}
+
+void tests_UserService(){
+    UserService_test userService;
+
+    string id = "Provider0";
+    string pass = "provider0";
+    userService.test_authentificate(id,pass);
+
+    cout<<"Test done"<<endl;
 }
 

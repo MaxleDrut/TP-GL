@@ -20,7 +20,7 @@ class UserService
 
     public:
 
-        UserService();
+        UserService(vector<User *> users);
 
         virtual ~UserService();
 
@@ -32,7 +32,7 @@ class UserService
 
         UserTypes getPrivilege(const string identifier) const;
 
-        User authentificate(const string login, const string pass);
+        User * authentificate(const string login, const string pass);
         
 
 
