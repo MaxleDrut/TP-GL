@@ -2,17 +2,21 @@
  
 #include <assert.h>
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
 #include "services/UserService.h"
+#include "user/User.h"
+#include "services/LoadService.h"
 
 class UserService_test
 {
     private:
-        UserService * user;
+        UserService * userServ;
 
     public:
         UserService_test();
         virtual ~UserService_test();
-        void test_authentificate(const string login, const string pass);
+        int test_authentificate(const string login, const string pass);
 };

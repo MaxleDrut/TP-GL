@@ -9,14 +9,20 @@
 
 using namespace std;
 
-User UserService::authentificate(const string login, const string pass)
+UserService::UserService(vector<User *> users){
+    this->users = move(users);
+}
+
+UserService::~UserService(){}
+
+User * UserService::authentificate(const string login, const string pass)
 {
     // check if login exists in users
-    for(User & user : this->users)
+    for(User * user : this->users)
     {
-        if(user.getIdentifier() == login)
+        if(user->getIdentifier() == login)
         {
-            if(user.getPassword() == pass) return user;
+            if(user->getPassword() == pass) return user;
         }
     }
     

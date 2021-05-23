@@ -19,6 +19,7 @@ class SensorService {
         int end;
     public :
         SensorService() = default;
+        SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors);
         virtual ~SensorService() = default;
 
         vector<Sensor *> getSensors();
