@@ -34,3 +34,45 @@ int UserService_test::test_authentificate(const string login, const string pass)
 
     return 0;
 }
+
+int UserService_test::test_getPrivilege(){
+    UserTypes individual = userServ->getPrivilege("User0");
+    UserTypes provider = userServ->getPrivilege("Provider0");
+    UserTypes government = userServ->getPrivilege("Government0");
+    UserTypes aucun = userServ->getPrivilege("harryPotter");
+
+    assert(individual==INDIVIDUAL);
+    assert(provider==PROVIDER);
+    assert(government==GOVERNMENT);
+    assert(aucun==NONE);
+
+    cout<<"Valid privileges"<<endl;
+
+    return 0;
+    
+    
+}
+
+int UserService_test::test_getIndividualUsers(){
+    const vector<IndividualUser *> individuals= userServ->getIndividualUsers();
+    
+    assert(individuals[0]->getIdentifier()=="User0");
+    assert(individuals[1]->getIdentifier()=="User1");
+
+    cout<<"Valid individual users"<<endl;
+
+    return 0;
+    
+}
+
+int UserService_test::test_getProviderUsers(){
+    const vector<ProviderUser *> providers= userServ->getProviderUsers();
+    
+    assert(providers[0]->getIdentifier()=="Provider0");
+    assert(providers[1]->getIdentifier()=="Provider1");
+
+    cout<<"Valid providers users"<<endl;
+
+    return 0;
+    
+}
