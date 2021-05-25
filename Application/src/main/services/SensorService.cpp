@@ -14,10 +14,15 @@ vector<Attribute *> SensorService::getAttributes() {
     return attributes;
 }
 
-/*Sensor getSensor(string identifier) {
-    /*for(vector<Sensor>::iterator it = sensors.begin(); it!=sensors.end(); it++) {
+Sensor * SensorService::getSensor(string identifier) {
 
+    for(Sensor * sensor : this->sensors)
+    {
+        if(sensor->getIdentifier()==identifier)
+        {
+            return sensor;
+        }
     }
-   
-}*/
+    return nullptr;
+}
 

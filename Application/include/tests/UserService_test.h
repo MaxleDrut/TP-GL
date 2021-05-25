@@ -19,4 +19,7 @@ class UserService_test
         UserService_test();
         virtual ~UserService_test();
         int test_authentificate(const string login, const string pass);
+        int test_getPrivilege();
+        int test_getIndividualUsers();
+        int test_getProviderUsers();
 };

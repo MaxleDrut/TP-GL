@@ -1,20 +1,22 @@
 #include <assert.h>
-#include <iostream>
 #include <string>
 
 using namespace std;
 #include "LoadService_test.h"
 #include "UserService_test.h"
+#include "SensorService_test.h"
 
 #define NDEBUG
 
 void tests_LoadService();
 void tests_UserService();
+void tests_SensorService();
 
 int main()
 {
     tests_LoadService();
     tests_UserService();
+    tests_SensorService();
     return 0;
 }
 
@@ -47,6 +49,20 @@ void tests_UserService(){
     string pass = "provider0";
     userService.test_authentificate(id,pass);
 
+    userService.test_getIndividualUsers();
+    userService.test_getProviderUsers();
+    userService.test_getPrivilege();
+
     cout<<"Test done"<<endl;
 }
 
+
+void tests_SensorService(){
+    SensorService_test sensorService;
+
+    
+    sensorService.test_getSensors();
+    sensorService.test_getSensor();
+
+    cout<<"Test done"<<endl;
+}

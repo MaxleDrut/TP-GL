@@ -3,7 +3,7 @@
 //
 
 #include <vector>
-
+#include <iostream>
 #include "services/UserService.h"
 #include "user/User.h"
 
@@ -28,7 +28,40 @@ User * UserService::authentificate(const string login, const string pass)
     
 }
 
+vector<IndividualUser *> UserService::getIndividualUsers () const{
+    
+    vector<IndividualUser *> individuals;
 
+    // check if login exists in users
+    for(User * user : this->users)
+    {
+        if(getPrivilege(user->getIdentifier()) == INDIVIDUAL)
+        {
+            individuals.push_back(static_cast<IndividualUser *>(user) );
+        }
+    }
+
+    const vector<IndividualUser *> individuals2 = move(individuals);
+    return individuals2;
+}
+
+
+vector<ProviderUser *> UserService::getProviderUsers () const{
+    
+    vector<ProviderUser *> providers;
+
+    // check if login exists in users
+    for(User * user : this->users)
+    {
+        if(getPrivilege(user->getIdentifier()) == PROVIDER)
+        {
+            providers.push_back(static_cast<ProviderUser *>(user) );
+        }
+    }
+
+    const vector<ProviderUser *> providers2 = move(providers);
+    return providers2;
+}
 
 UserTypes UserService::getPrivilege(const string identifier) const{
     string id = identifier.substr(0,identifier.size()-1);
