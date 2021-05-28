@@ -107,7 +107,9 @@ map<Sensor, double, SensorComparator> FR7_sensorComparison(
     map<Sensor, double, SensorComparator> proximity;
     // TODO: finish function
     return proximity;
-=======
+
+}
+
 map<Attribute *,double> SensorService::FR8_qualityAttributes(double latitude, double longitude, time_t time) {
     vector<Measurement *> allMeasurements = getAllMeasurements();
 
