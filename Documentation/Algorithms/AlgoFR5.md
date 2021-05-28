@@ -10,8 +10,9 @@ Algorithm FR5_malfunctioningAnalysis is
     // removes all the measurements from a measurement list of a given sensor
     function removeAllMeasurementsFromSensor(Measurement[] measurements, Sensor sensor) -> Measurement[] remainingMeasurements
 
-    // returns True if the given sensor is considered reliable, False otherwise
-    function FR5_malfunctioningAnalysis(Sensor sensorToCheck) -> Boolean isReliable
+    // returns the relative gap between other sensor to help the government detect
+    // falsy sensors.
+    function FR5_malfunctioningAnalysis(Sensor sensorToCheck) -> Double averageRelativeGap
         var Measurement[] measurements := getAllMeasurements()
         measurements := removeAllMeasurementsFromSensor(measurements, sensorToCheck)
 

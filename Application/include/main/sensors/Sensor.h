@@ -54,3 +54,14 @@ public:
         this->measurements.push_back(measurement);
     }
 };
+
+class SensorComparator
+{
+public:
+    bool operator() (const Sensor &s1, const Sensor &s2) const {
+        return s1.getIdentifier() < s2.getIdentifier();
+    }
+    // ex: map<Sensor, double, SensorComparator> mapSensorDouble;
+};
+
+

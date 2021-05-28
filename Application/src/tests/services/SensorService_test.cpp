@@ -44,6 +44,12 @@ int SensorService_test::test_getSensor(){
  
 }
 
+
+int SensorService_test::test_FR5_malfunctioningAnalysis() {
+    
+    return 0;
+}
+
 int SensorService_test::test_isGivenTimeInsideTimePeriod(){
     string date= "2019-01-01  12:00:00";
     tm requestTimeDate = {};

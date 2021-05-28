@@ -22,10 +22,10 @@ class SensorService_test {
         virtual ~SensorService_test();
         int test_getSensors();
         int test_getSensor();
+        int test_FR5_malfunctioningAnalysis();
         int test_isGivenTimeInsideTimePeriod();
         int test_distanceBetweenPositions();
         int test_convertValuesAttributesToATMOScore();
         int test_FR8_quality();
         int test_FR8_qualityAttributes();
-
 };
