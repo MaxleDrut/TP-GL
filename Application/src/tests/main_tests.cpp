@@ -68,6 +68,7 @@ void tests_SensorService(){
     sensorService.test_convertValuesAttributesToATMOScore();
     sensorService.test_FR8_qualityAttributes();
     sensorService.test_FR8_quality();
+    sensorService.test_FR5_malfunctioningAnalysis();
 
     cout<<"Test done"<<endl;
 }
