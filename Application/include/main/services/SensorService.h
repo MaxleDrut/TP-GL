@@ -17,8 +17,6 @@ class SensorService {
         vector<Sensor *> sensors;
         vector<Attribute *> attributes;
 
-        int start;
-        int end;
     public :
         SensorService() = default;
         SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors);
