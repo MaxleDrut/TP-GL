@@ -52,8 +52,7 @@ int LoadService_test::test_loadUsers(string & userFile, string & providerFile, s
 
     }
 
-    bool res2 = load->loadUsers("baba.csv",providerFile,governmentFile,passwordFile);
-    assert(res2==false);
+    
 
     cout << "Users successfully loaded" <<endl;
 
