@@ -19,5 +19,5 @@ class SensorService_test {
         virtual ~SensorService_test();
         int test_getSensors();
         int test_getSensor();
-
+        int test_FR5_malfunctioningAnalysis();
 };

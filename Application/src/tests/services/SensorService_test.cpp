@@ -42,3 +42,8 @@ int SensorService_test::test_getSensor(){
     return 0;
  
 }
+
+int SensorService_test::test_FR5_malfunctioningAnalysis() {
+    
+    return 0;
+}
