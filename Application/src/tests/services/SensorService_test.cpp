@@ -44,12 +44,6 @@ int SensorService_test::test_getSensor(){
  
 }
 
-
-int SensorService_test::test_FR5_malfunctioningAnalysis() {
-    
-    return 0;
-}
-
 int SensorService_test::test_isGivenTimeInsideTimePeriod(){
     string date= "2019-01-01  12:00:00";
     tm requestTimeDate = {};
@@ -97,8 +91,8 @@ int SensorService_test::test_FR8_qualityAttributes() {
     int i=0;
 
     for(auto &it : output) {
-        double arrondi = ((int)(it.second*100))/100.0;
-        assert(arrondi-expectedValues[i] < 0.001);
+        double round = ((int)(it.second*100))/100.0;
+        assert(round-expectedValues[i] < 0.001);
         i++;
     }
 
@@ -112,8 +106,8 @@ int SensorService_test::test_FR8_qualityAttributes() {
     double expectedValues2[4] = {NULL,NULL,NULL,NULL};
     i=0;
     for(auto &it : output2) {
-        double arrondi = ((int)(it.second*100))/100.0;
-        assert(arrondi-expectedValues[i] < 0.001);
+        double round = ((int)(it.second*100))/100.0;
+        assert(round-expectedValues[i] < 0.001);
         i++;
     }
 
@@ -157,4 +151,18 @@ int SensorService_test::test_convertValuesAttributesToATMOScore(){
     
     return 0;
 }
+
+ int SensorService_test::test_FR5_malfunctioningAnalysis(){
+     for(auto &sens : service->getSensors()){
+         if(sens->getIdentifier()=="Sensor0"){
+             double res = service->FR5_malfunctioningAnalysis(*sens);
+            
+             assert((((int)(res*100))/100.0)-0.184<0.001);
+         }
+     }
+     
+     cout<<"Test malfunction ok"<<endl;
+
+     return 0;
+ }
 

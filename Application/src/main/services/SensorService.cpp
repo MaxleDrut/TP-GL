@@ -32,17 +32,6 @@ Sensor * SensorService::getSensor(string identifier) {
 
 
 // functions for FR5 algorithm
-map<Attribute*, double> SensorService::FR8_qualityAttributesExcludeSensor(
-        double latitude, 
-        double longitude, 
-        time_t time, 
-        Sensor& sensorToExclude
-    ) {
-    //TODO: modify the 
-
-
-}
-
 double SensorService::FR5_malfunctioningAnalysis(Sensor sensorToCheck) {
     double relativeSum = 0.0;
     int nbOfMeasurementsForSensorToCheck = 0;
@@ -163,6 +152,47 @@ map<Attribute *,double> SensorService::FR8_qualityAttributes(double latitude, do
     }
     
     return numeratorS;
+}
+
+
+//This is a copy pasted versio of the previous FR8_qualityAttributes, but we ban measures if they're from
+//A specified snesor
+map<Attribute*, double> SensorService::FR8_qualityAttributesExcludeSensor(
+        double latitude, 
+        double longitude, 
+        time_t time, 
+        Sensor& sensorToExclude
+    ) {
+
+    vector<Measurement *> allMeasurements = getAllMeasurements();
+
+    map<Attribute *,double> numeratorS;
+    map<Attribute *,double> denominatorS;
+    
+    for(auto &it : attributes) {
+        numeratorS[it] = denominatorS[it] = 0.0;
+    }
+
+    for(auto &it : allMeasurements) {
+        if(it->getSensor()->getReliable() && it->getSensor()->getIdentifier() != sensorToExclude.getIdentifier() && (time,it->getTimestamp())) {
+            //The further away the sensor, the lesser its coefficient.
+            double coef = 1.0/distanceBetweenPositions(latitude,longitude,it->getSensor()->getLatitude(),it->getSensor()->getLongitude());
+            numeratorS[it->getAttribute()] += coef*it->getValue();
+            denominatorS[it->getAttribute()] += coef;
+        }
+    }
+
+    //Determines the average value.
+    for(auto &it : attributes) {
+        if(denominatorS[it] != 0) { //Do the final ratio only if we found at least one value. Else we would divide by zero
+            numeratorS[it] = numeratorS[it] / denominatorS[it];
+        } else { //In that case, defines a null value
+            numeratorS[it] = NULL;
+        }
+    }
+    
+    return numeratorS;
+
 }
 
 string SensorService::FR8_quality(double latitude, double longitude, time_t time) {
