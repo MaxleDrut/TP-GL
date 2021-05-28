@@ -63,6 +63,11 @@ void tests_SensorService(){
     
     sensorService.test_getSensors();
     sensorService.test_getSensor();
+    sensorService.test_isGivenTimeInsideTimePeriod();
+    sensorService.test_distanceBetweenPositions();
+    sensorService.test_convertValuesAttributesToATMOScore();
+    sensorService.test_FR8_qualityAttributes();
+    sensorService.test_FR8_quality();
 
     cout<<"Test done"<<endl;
 }

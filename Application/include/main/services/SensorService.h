@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <cmath>
 #include <ctime>
 #include <fstream>
 #include "sensors/Attribute.h"
@@ -30,16 +31,17 @@ class SensorService {
         map<Sensor,double, SensorComparator> FR7_sensorComparison(Sensor sensorToCompare, time_t t1, time_t t2);
         
     private:
-        map<Attribute,double> FR8_qualityAttributes(double latitude, double longitude, time_t time);
-        map<Attribute*, double> FR8_qualityAttributesExcludeSensor(
+        map<Attribute *, double> FR8_qualityAttributesExcludeSensor(
             double latitude, 
             double longitude, 
             time_t time, 
             Sensor& sensorToExclude
         );
-        bool isGivenTimeInsideTimePeriod(time_t start, time_t stop, time_t time);
+        vector<Measurement *> getAllMeasurements();
+        map<Attribute *,double> FR8_qualityAttributes(double latitude, double longitude, time_t time);
+        bool isGivenTimeInsideTimePeriod(time_t t1,time_t t2);
         double distanceBetweenPositions(double latitudeA, double longitudeA, double latitudeB, double longitudeB);
-        string convertValuesAttributesToATMOScore(map<Attribute,double> values);
+        string convertValuesAttributesToATMOScore(map<string,double> values);
         vector<Measurement *> removeAllMeasurementsFromSensor(vector<Measurement *> measurements, Sensor sensor);
 
 };
