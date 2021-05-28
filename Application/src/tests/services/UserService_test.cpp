@@ -1,8 +1,3 @@
-//
-// Created by onyr on 07/05/2021.
-//
-
-
 #include "UserService_test.h"
 
 
@@ -25,8 +20,7 @@ UserService_test::~UserService_test(){
 
 int UserService_test::test_authentificate(const string login, const string pass)
 {
-    //TODO
-    User * user = userServ->authentificate(login,pass);
+    User * user = userServ->authenticate(login,pass);
     assert(user->getIdentifier()=="Provider0");
     assert(user->getPassword()=="provider0");
 

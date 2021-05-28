@@ -14,11 +14,7 @@ class ProviderUser: public User
 private:
     vector<Cleaner *> cleaners;
 public:
-    ProviderUser(string &identifier, string &password)
-    {
-        this->identifier = identifier;
-        this->password = password;
-    }
+    ProviderUser(string &identifier, string &password): User(identifier, password) {};
 
     virtual ~ProviderUser() = default;
 

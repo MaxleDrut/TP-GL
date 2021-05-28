@@ -152,6 +152,7 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
             int pos = 0;
             string id = loadInfo(line,pos);
             string password=loadInfo(line,pos);
+            cout << "id=" << id << ", pass=" << password << endl;
             UserTypes usertype = getPrivilege(id);
             
             if(usertype==INDIVIDUAL){
@@ -164,6 +165,8 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
                // GovernmentUser user (id,password);
                 users.push_back(new GovernmentUser(id,password));
             }
+
+            cout << (users[users.size() - 1]) << endl;
             getline(fluxPassword,line);
         }
 

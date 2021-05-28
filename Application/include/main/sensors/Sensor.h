@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class Measurement;
+
 class Sensor
 {
  private :

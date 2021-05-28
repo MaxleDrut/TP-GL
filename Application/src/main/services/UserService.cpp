@@ -1,7 +1,3 @@
-//
-// Created by onyr on 07/05/2021.
-//
-
 #include <vector>
 #include <iostream>
 #include "services/UserService.h"
@@ -15,17 +11,28 @@ UserService::UserService(vector<User *> users){
 
 UserService::~UserService(){}
 
-User * UserService::authentificate(const string login, const string pass)
+User * UserService::authenticate(const string &login, const string &pass)
 {
     // check if login exists in users
-    for(User * user : this->users)
+    for(size_t i = 0; i < users.size(); i++)
     {
-        if(user->getIdentifier() == login)
+        cout << users[i]->getIdentifier() << endl;
+    }
+
+    return nullptr;
+
+    for(auto &user : users)
+    {
+        cout << &user << endl;
+        continue;
+
+        if(user->getIdentifier() == login && user->getPassword() == pass)
         {
-            if(user->getPassword() == pass) return user;
+            return user;
         }
     }
     
+    return nullptr;
 }
 
 vector<IndividualUser *> UserService::getIndividualUsers () const{

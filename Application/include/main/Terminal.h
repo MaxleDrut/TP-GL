@@ -7,6 +7,10 @@
 #include "sensors/Measurement.h"
 #include "user/Cleaner.h"
 
+#include "services/SensorService.h"
+#include "services/CleanerService.h"
+#include "services/UserService.h"
+
 using namespace std;
 
 class Terminal
@@ -17,8 +21,12 @@ private:
     string userPassword;
     UserTypes userType;
 
+    SensorService *sensorService;
+    UserService *userService;
+    CleanerService *cleanerService;
+
 public:
-    Terminal(): userType(UserTypes::NONE) {};
+    Terminal(SensorService *sensorService, UserService *userService, CleanerService *cleanerService): userType(UserTypes::NONE) {};
 
     [[noreturn]] void start();
 

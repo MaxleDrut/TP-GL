@@ -3,7 +3,6 @@
 #include <vector>
 #include "Terminal.h"
 #include "utils/utils.h"
-//#include "../../include/main/Terminal.h"
 
 using namespace std;
 
@@ -44,15 +43,19 @@ void Terminal::printAuthPrompt()
         cout << "Password: ";
         cin >> password;
 
-        // TODO authenticate
-        authSuccess = true;
+        User *user = userService->authenticate(login, password);
+        authSuccess = user != nullptr;
+        
+        cout << user << endl;
+
+        return;
 
         if(authSuccess)
         {
             userId = login;
             userPassword = password;
-            userType = UserTypes::GOVERNMENT; // TODO change with usertype
-            cout << "Connected as " << userId << "." << endl;
+            userType = userService->getPrivilege(user->getIdentifier());
+            cout << "Connected as " << userId << "." << " (" << userType << ")" << endl;
         }
         else
         {

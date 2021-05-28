@@ -9,11 +9,7 @@ using namespace std;
 class GovernmentUser : public User
 {
 public:
-    GovernmentUser(const string &identifier, const string &password)
-    {
-        this->identifier = identifier;
-        this->password = password;
-    }
+    GovernmentUser(string &identifier, string &password): User(identifier, password) {};
 
     virtual ~GovernmentUser() = default;
 };

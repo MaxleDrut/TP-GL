@@ -28,4 +28,6 @@ public:
     virtual string getIdentifier() const {
         return identifier;
     }
+
+    // friend ostream& operator <<(ostream &out, Attribute &attribute);
 };
