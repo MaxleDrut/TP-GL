@@ -24,10 +24,10 @@ Algorithm FR7_sensorComparison is
 
         var Map<Sensor, double> proximity
 
-        var Double refValues[4]; //Stores the average value of the target sensor
+        var Map<Attribute, Double> refValues[4]; //Stores the average value of the target sensor
         var Integer i:=0
         for each attribute //NO2, O3, PM10...
-            refValues[i] := FR7_averageValue(sensorToCompare,attribute,t1,t2)
+            refValues[Attribute] := FR7_averageValue(sensorToCompare,attribute,t1,t2)
             i+=1
         
         for each sensor in getAllSensors()
