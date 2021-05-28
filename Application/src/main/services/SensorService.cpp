@@ -55,7 +55,7 @@ double FR5_malfunctioningAnalysis(Sensor sensorToCheck) {
         time_t oneYearBeforeMeasurement = measurement->getTimestamp() - 31536000; // 31536000 == nb seconds 1 year
         // need to apply a modified version of FR8 without taking the sensor values for computation
         map<Attribute*, double> expectedValues = FR8_qualityAttributesExcludeSensor(
-            measurement->getSensor().getLatitude(), 
+            measurement->getSensor()->getLatitude(), 
             measurement->getSensor()->getLongitude(), 
             oneYearBeforeMeasurement,
             sensorToCheck
@@ -83,14 +83,27 @@ double FR7_averageValue(
     double sum = 0;
     int checkedMeasurement = 0;
     for(auto &measurement : sensor.getMeasurements()) {
-        //TODO: finish function
+        if(
+            (measurement->getAttribute()->getIdentifier() == 
+            targetAttribute.getIdentifier()) &&
+            (measurement->getTimestamp() > t1) &&
+            (measurement->getTimestamp() < t2)
+        ) {
+            sum += measurement->getValue();
+            checkedMeasurement++;
+        }
     }
+    return sum/checkedMeasurement;
 }
 
-map<Sensor,double, SensorComparator> FR7_sensorComparison(
-        Sensor sensorToCompare, time_t t1, time_t t2
+map<Sensor, double, SensorComparator> FR7_sensorComparison(
+        Sensor sensorToCompare, 
+        time_t t1, 
+        time_t t2
     ) {
-    //TODO: finish algo
+    map<Sensor, double, SensorComparator> proximity;
+    // TODO: finish function
+    return proximity;
 }
 
 
