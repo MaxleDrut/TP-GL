@@ -28,4 +28,6 @@ class SensorService_test {
         int test_convertValuesAttributesToATMOScore();
         int test_FR8_quality();
         int test_FR8_qualityAttributes();
+        int test_FR7_averageValue();
+        int test_FR7_sensorComparison();
 };

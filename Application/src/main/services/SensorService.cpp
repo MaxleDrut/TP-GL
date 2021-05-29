@@ -78,14 +78,19 @@ double SensorService::FR7_averageValue(
         if(
             (measurement->getAttribute()->getIdentifier() == 
             targetAttribute.getIdentifier()) &&
-            (measurement->getTimestamp() > t1) &&
-            (measurement->getTimestamp() < t2)
+            (measurement->getTimestamp() >= t1) &&
+            (measurement->getTimestamp() <= t2)
         ) {
             sum += measurement->getValue();
             checkedMeasurement++;
         }
     }
-    return sum/checkedMeasurement;
+
+    if(checkedMeasurement!=0) {
+        return sum/checkedMeasurement;
+    } else {
+        return NULL; //can't divide by zero
+    }
 }
 
 map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
@@ -93,6 +98,12 @@ map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
         time_t t1, 
         time_t t2
     ) {
+
+    //Check if the sensor is in the database by asking for the sensor's identified
+    if(getSensor(sensorToCompare.getIdentifier()) == nullptr) {
+        return {};
+    }
+
     map<Sensor, double, SensorComparator> proximity;
 
     //Stores the average value of the target sensor
@@ -106,16 +117,24 @@ map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
     for(Sensor* sensor : sensors) {
         if(sensor->getIdentifier() != sensorToCompare.getIdentifier()) {
             double relativeGap = 0;
+            int countedMeasurements = 0; 
             for(int i = 0; i < attributes.size(); i++) {
                 Attribute currentAttribute = *attributes[i];
                 double currentAverage = FR7_averageValue(
                     *sensor, currentAttribute, t1, t2
                 );
                 double currentRefValue = refValues[currentAttribute];
-                relativeGap += abs(currentAverage - currentRefValue)/currentRefValue;
+                if(currentRefValue != NULL && currentAverage != NULL) {
+                    relativeGap += abs(currentAverage - currentRefValue)/currentRefValue;
+                    countedMeasurements++;
+                }
             }
-            relativeGap = relativeGap/attributes.size();
-            proximity[*sensor] = 1/(relativeGap + 1);
+            if(countedMeasurements>0) {
+                relativeGap = relativeGap/countedMeasurements;
+                proximity[*sensor] = 1/(relativeGap + 1);
+            } else { //if the sensor had no measurements, the relative gap can't be calculated, thus we can't compare sensors 
+                proximity[*sensor] = NULL;
+            }
         }
     }
 

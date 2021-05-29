@@ -23,7 +23,7 @@ int SensorService_test::test_getSensors(){
     assert(sensors[0]->getIdentifier()=="Sensor0");
     assert(sensors[1]->getIdentifier()=="Sensor1");
 
-    cout<<"Valid sensors"<<endl;
+    cout<<"Test stored sensors ok"<<endl;
 
     return 0;
  
@@ -38,7 +38,7 @@ int SensorService_test::test_getSensor(){
     Sensor * sensor2 = service->getSensor("Sensor101");
     assert(sensor2==nullptr);
 
-    cout<<"Valid sensor"<<endl;
+    cout<<"Test get a specified sensor ok"<<endl;
 
     return 0;
  
@@ -70,12 +70,13 @@ int SensorService_test::test_isGivenTimeInsideTimePeriod(){
 int SensorService_test::test_distanceBetweenPositions(){
     double distance = service->distanceBetweenPositions(44,-1,45,-2);
 
-    //Little trick to round the number to two digits
+    //Little trick to round the number to two digits (but C++ doesn't handle its precise value properly...)
     distance = ((int)(distance*100))/100.0;
 
+    //The expected value is 1.41, with a precision of a least 3 digits.
     assert(distance - 1.41 <0.001);
 
-    cout<<"test distance ok"<<endl;
+    cout<<"Test distance calculation ok"<<endl;
     return 0;
 }
 
@@ -111,7 +112,7 @@ int SensorService_test::test_FR8_qualityAttributes() {
         i++;
     }
 
-    cout<<"test fr8 quality attributes ok"<<endl;
+    cout<<"Test FR8_qualityAttributes ok"<<endl;
     return 0;
 
 }
@@ -133,7 +134,7 @@ int SensorService_test::test_FR8_quality(){
     string val2 = service->FR8_quality(45,-2,mktime(&requestTimeDate2));
     assert(val2=="not computable");
 
-    cout<<"test fr8 quality ok"<<endl;
+    cout<<"Test FR8_quality ok"<<endl;
     return 0;
 }
 
@@ -147,22 +148,79 @@ int SensorService_test::test_convertValuesAttributesToATMOScore(){
     string res = service->convertValuesAttributesToATMOScore(values);
     assert(res=="good");
 
-    cout<<"test conversion ok"<<endl;
+    cout<<"Test conversion ok"<<endl;
     
     return 0;
 }
 
- int SensorService_test::test_FR5_malfunctioningAnalysis(){
-     for(auto &sens : service->getSensors()){
-         if(sens->getIdentifier()=="Sensor0"){
-             double res = service->FR5_malfunctioningAnalysis(*sens);
-            
-             assert((((int)(res*100))/100.0)-0.184<0.001);
-         }
-     }
+//Finds the sensor identified "Sensor0" and runs the malfunctionning analysis
+int SensorService_test::test_FR5_malfunctioningAnalysis(){
+    Sensor * sens = service->getSensor("Sensor0");
+    double res = service->FR5_malfunctioningAnalysis(*sens);
+    //The expected value is 0.184, with a precision of at least 3 digits
+    assert((((int)(res*100))/100.0)-0.184<0.001);
+        
      
-     cout<<"Test malfunction ok"<<endl;
+    cout<<"Test FR5_malfunctioningAnalysis ok"<<endl;
 
-     return 0;
- }
+    return 0;
+}
+
+
+int SensorService_test::test_FR7_averageValue() {
+    //for the 1rst test, we have to find the sensor "Sensor0", the attribute "O3" and define the dates 
+    string date= "2019-01-01  12:00:00";
+    tm requestTimeDate = {};
+    istringstream rqTimeStreamDate(date);
+    rqTimeStreamDate >> get_time(&requestTimeDate, "%Y-%m-%d% %H:%M:%S");
+
+    Sensor * sens = service->getSensor("Sensor0");
+        for(auto &att : service->getAttributes()) {
+            if(att->getIdentifier()=="O3") {
+                double res = service->FR7_averageValue(*sens,*att,mktime(&requestTimeDate),mktime(&requestTimeDate)+60*20);
+                //The expected value is 50.25., with a precision of at least 3 digits
+                assert((((int)(res*100))/100.0)-50.25<0.001);
+            }
+        }
+
+    //For the 2nd test, we create a bad attribute "o2" and expect a null value (instead of a crash)
+    string unit = "us dollars";
+    string description ="we use it to breathe, and it's cool";
+    string id = "o2";
+    Attribute o2(unit,description,id);
+            
+    double res = service->FR7_averageValue(*sens,o2,mktime(&requestTimeDate),mktime(&requestTimeDate)+60*20);
+    assert(res == NULL);
+
+    cout<<"Test FR7_averageValue ok"<<endl;
+    return 0;
+}
+
+int SensorService_test::test_FR7_sensorComparison() {
+    string date= "2019-01-01  12:00:00";
+    tm requestTimeDate = {};
+    istringstream rqTimeStreamDate(date);
+    rqTimeStreamDate >> get_time(&requestTimeDate, "%Y-%m-%d% %H:%M:%S");
+
+    Sensor * s0 = service->getSensor("Sensor0");
+    
+    map<Sensor,double,SensorComparator> res = service->FR7_sensorComparison(*s0,mktime(&requestTimeDate),mktime(&requestTimeDate)+20*60);
+
+    //The map must contain one row : 'Sensor1 - 0.846'
+    assert(res.size()==1);
+    Sensor * s1 = service->getSensor("Sensor1");
+    double val = res[*s1];
+    assert((((int)(val*1000))/1000.0)-0.846<0.0001);
+
+    //Create a fake sensor "Sensor101" not in the DataBase
+    string id = "Sensor101";
+    Sensor fakeSensor(id,42,69,true);
+    map<Sensor,double,SensorComparator> res2 = service->FR7_sensorComparison(fakeSensor,mktime(&requestTimeDate),mktime(&requestTimeDate)+20*60);
+    //The map must be empty
+    assert(res2.size()==0);
+
+    cout<<"Test FR7_sensorComparison ok"<<endl;
+
+    return 0;
+}
 

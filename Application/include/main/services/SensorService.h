@@ -48,9 +48,5 @@ class SensorService {
             time_t t1, 
             time_t t2
         );
-        map<Sensor, double, SensorComparator> FR7_sensorComparison(
-            Sensor sensorToCompare, 
-            time_t t1, 
-            time_t t2
-        );
+        
 };
