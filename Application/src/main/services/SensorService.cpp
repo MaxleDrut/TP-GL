@@ -66,7 +66,7 @@ double SensorService::FR5_malfunctioningAnalysis(Sensor sensorToCheck) {
 }
 
 // functions for FR7 algoriithm
-double FR7_averageValue(
+double SensorService::FR7_averageValue(
         Sensor sensor, 
         Attribute targetAttribute, 
         time_t t1, 
@@ -88,13 +88,37 @@ double FR7_averageValue(
     return sum/checkedMeasurement;
 }
 
-map<Sensor, double, SensorComparator> FR7_sensorComparison(
+map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
         Sensor sensorToCompare, 
         time_t t1, 
         time_t t2
     ) {
     map<Sensor, double, SensorComparator> proximity;
-    // TODO: finish function
+
+    //Stores the average value of the target sensor
+    map<Attribute, double, AttributeComparator> refValues; 
+    for(int i = 0; i < attributes.size(); i++) {
+        Attribute currentAttribute = *attributes[i];
+        double attributeValue = FR7_averageValue(sensorToCompare, currentAttribute, t1, t2);
+        refValues.insert(std::pair<Attribute, double>(currentAttribute, attributeValue));
+    }
+
+    for(Sensor* sensor : sensors) {
+        if(sensor->getIdentifier() != sensorToCompare.getIdentifier()) {
+            double relativeGap = 0;
+            for(int i = 0; i < attributes.size(); i++) {
+                Attribute currentAttribute = *attributes[i];
+                double currentAverage = FR7_averageValue(
+                    *sensor, currentAttribute, t1, t2
+                );
+                double currentRefValue = refValues[currentAttribute];
+                relativeGap += abs(currentAverage - currentRefValue)/currentRefValue;
+            }
+            relativeGap = relativeGap/attributes.size();
+            proximity[*sensor] = 1/(relativeGap + 1);
+        }
+    }
+
     return proximity;
 
 }

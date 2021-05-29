@@ -17,8 +17,6 @@ class SensorService {
         vector<Sensor *> sensors;
         vector<Attribute *> attributes;
 
-        int start;
-        int end;
     public :
         SensorService() = default;
         SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors);
@@ -44,5 +42,15 @@ class SensorService {
         double distanceBetweenPositions(double latitudeA, double longitudeA, double latitudeB, double longitudeB);
         string convertValuesAttributesToATMOScore(map<string,double> values);
         vector<Measurement *> removeAllMeasurementsFromSensor(vector<Measurement *> measurements, Sensor sensor);
-
+        double FR7_averageValue(
+            Sensor sensor, 
+            Attribute targetAttribute, 
+            time_t t1, 
+            time_t t2
+        );
+        map<Sensor, double, SensorComparator> FR7_sensorComparison(
+            Sensor sensorToCompare, 
+            time_t t1, 
+            time_t t2
+        );
 };
