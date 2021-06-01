@@ -61,6 +61,7 @@ double SensorService::FR5_malfunctioningAnalysis(Sensor sensorToCheck) {
 
     double averageRelativeGap = relativeSum / nbOfMeasurementsForSensorToCheck;
     
+    
     return averageRelativeGap;
 
 }

@@ -23,14 +23,24 @@ UserService_test::~UserService_test(){
     delete userServ;
 }
 
-int UserService_test::test_authentificate(const string login, const string pass)
+int UserService_test::test_authentificate()
 {
     //TODO
-    User * user = userServ->authentificate(login,pass);
+    string id = "Provider0";
+    string pass = "provider0";
+
+    User * user = userServ->authentificate(id,pass);
     assert(user->getIdentifier()=="Provider0");
     assert(user->getPassword()=="provider0");
 
-    cout<<"Authentification success"<<endl;
+    id = "Provider5";
+    pass = "provider0";
+
+    user = userServ->authentificate(id,pass);
+    assert(user==nullptr);
+
+    cout<<"Test Authentification success"<<endl;
+    delete user;
 
     return 0;
 }

@@ -9,6 +9,10 @@ LoadService_test::~LoadService_test(){
 }
 
 int LoadService_test::test_loadCleaners(string & file){
+
+    string badFile = "baba.csv";
+    bool res2 = load->loadCleaners(badFile);
+    assert(res2==false);
     
     bool res = load->loadCleaners(file);
     assert(res==true);
@@ -23,6 +27,11 @@ int LoadService_test::test_loadCleaners(string & file){
 
 int LoadService_test::test_loadSensors(string & file1, string & file2, string & file3)
 {
+
+    string badFile = "baba.csv";
+    bool res2 = load->loadSensors(badFile,file1,file2);
+    assert(res2==false);
+
     bool res = load->loadSensors(file1,file2,file3);
     assert(res==true);
 
@@ -31,6 +40,9 @@ int LoadService_test::test_loadSensors(string & file1, string & file2, string & 
     
     vector<Measurement *> lMeasurements = load->getMeasurements();
     assert(lMeasurements.size()==8);
+
+
+    
 
     cout << "Sensors successfully loaded" <<endl;
 
