@@ -39,16 +39,15 @@ void tests_LoadService() {
     loadServcie.test_loadUsers(fileUsers,fileProviders,fileGovernment,filePassword);
     
     cout<<"Test of LoadService done"<<endl;
+    
 
 }
 
 void tests_UserService(){
     UserService_test userService;
 
-    string id = "Provider0";
-    string pass = "provider0";
-    userService.test_authentificate(id,pass);
-
+    
+    userService.test_authentificate();
     userService.test_getIndividualUsers();
     userService.test_getProviderUsers();
     userService.test_getPrivilege();

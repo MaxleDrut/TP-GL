@@ -25,6 +25,7 @@ User * UserService::authentificate(const string login, const string pass)
             if(user->getPassword() == pass) return user;
         }
     }
+    return nullptr;
     
 }
 
