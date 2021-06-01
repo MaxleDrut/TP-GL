@@ -223,7 +223,10 @@ string SensorService::FR8_quality(double latitude, double longitude, time_t time
     map<string,double> stringAttributes;
     for(auto &it : meanAttributes) {
         stringAttributes[it.first->getIdentifier()] = it.second;
+
+        //cout<<it.first<<" "<<it.second<<endl;
     }
+
 
     return convertValuesAttributesToATMOScore(stringAttributes);
 }
