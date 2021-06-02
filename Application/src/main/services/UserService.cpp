@@ -1,7 +1,3 @@
-//
-// Created by onyr on 07/05/2021.
-//
-
 #include <vector>
 #include <iostream>
 #include "services/UserService.h"
@@ -9,24 +5,25 @@
 
 using namespace std;
 
-UserService::UserService(vector<User *> users){
+UserService::UserService(const vector<User *> &users){
     this->users = move(users);
 }
 
 UserService::~UserService(){}
 
-User * UserService::authentificate(const string login, const string pass)
+User * UserService::authenticate(const string &login, const string &pass)
 {
     // check if login exists in users
-    for(User * user : this->users)
+    for(auto &user : users)
     {
-        if(user->getIdentifier() == login)
+        if(user->getIdentifier().compare(login) == 0 && user->getPassword().compare(pass) == 0)
         {
-            if(user->getPassword() == pass) return user;
+            return user;
         }
     }
     return nullptr;
     
+    return nullptr;
 }
 
 vector<IndividualUser *> UserService::getIndividualUsers () const{
@@ -74,4 +71,9 @@ UserTypes UserService::getPrivilege(const string identifier) const{
         return UserTypes::GOVERNMENT;
     }
     return UserTypes::NONE;
+}
+
+vector<User *> UserService::getUsers() const 
+{
+    return users;
 }

@@ -44,15 +44,15 @@ public:
         return sensor;
     }
 
-
     Attribute * getAttribute() const
     {
         return attribute;
     }
-
     
     void  setSensor(Sensor * sensor)
     {
         this->sensor = sensor;
     }
+
+    // friend ostream& operator <<(ostream &out, Measurement &measurement);
 };

@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 // colors
 #define LIGHT_ORANGE "\e[38;5;216m"
 #define TURQUOISE "\e[38;5;43m"
@@ -22,3 +26,11 @@
 #define debugtv(exp, var) ((void)0)
 #endif
 
+string timestampToString(time_t &time)
+{
+    tm *ptm = localtime(&time);
+    char buffer[64];
+    strftime(buffer, 64, "%d/%m/%Y %H:%M:%S", ptm);
+
+    return string(buffer);
+}

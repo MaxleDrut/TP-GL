@@ -1,8 +1,3 @@
-//
-// Created by onyr on 07/05/2021.
-//
-
-
 #include "UserService_test.h"
 
 
@@ -28,14 +23,14 @@ int UserService_test::test_authentificate()
     string id = "Provider5";
     string pass = "provider0";
 
-    User *  user = userServ->authentificate(id,pass);
+    User *  user = userServ->authenticate(id,pass);
     assert(user==nullptr);
 
     //TODO
     id = "Provider0";
     pass = "provider0";
 
-    user = userServ->authentificate(id,pass);
+    user = userServ->authenticate(id,pass);
     assert(user->getIdentifier()=="Provider0");
     assert(user->getPassword()=="provider0");
 

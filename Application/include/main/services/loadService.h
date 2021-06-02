@@ -27,15 +27,17 @@ class LoadService
         vector<Measurement *> measurements;
 
         string loadInfo(const string ligne, int & pos);
+        UserTypes getPrivilege(const string identifier) const;
 
     public:
         LoadService();
         virtual ~LoadService();
-        UserTypes getPrivilege(const string identifier) const;
+
         bool loadCSV(string & userFile, string & providerFile, string & governmentFile, string & passwordFile, string & cleanersFile, string & sensorsFile, string & measurementFile, string & attributeFile);
         bool loadCleaners(string  & file);
         bool loadSensors(string & sensorFile, string & measurementFile, string & attributeFile);
         bool loadUsers(const string userFile, const string providerFile, const string governmentFile, const string passwordFile);
+
         vector<Cleaner *> getCleaners();
         vector<User *> getUsers();
         vector<Sensor *> getSensors();

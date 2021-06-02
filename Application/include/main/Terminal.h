@@ -7,6 +7,10 @@
 #include "sensors/Measurement.h"
 #include "user/Cleaner.h"
 
+#include "services/SensorService.h"
+#include "services/CleanerService.h"
+#include "services/UserService.h"
+
 using namespace std;
 
 class Terminal
@@ -17,21 +21,34 @@ private:
     string userPassword;
     UserTypes userType;
 
+    SensorService *sensorService;
+    UserService *userService;
+    CleanerService *cleanerService;
+
 public:
-    Terminal(): userType(UserTypes::NONE) {};
+    Terminal(SensorService *sensorService, UserService *userService, CleanerService *cleanerService): 
+        sensorService(sensorService), userService(userService), cleanerService(cleanerService), userType(UserTypes::NONE) {};
 
     [[noreturn]] void start();
 
 private:
     void printAuthPrompt();
-    void printSensors(const vector<Sensor>& sensors);
-    void printMeasurement(const Measurement& measurement);
-    void printAirQuality(double airQuality);
-    void printIndividualUser(const IndividualUser * const user);
-    void printUserMenu(UserTypes privilegeLevel);
     vector<string> promptUser(const string &prefix);
-    bool processCommand(const vector<string>& command);
-    void printSensorMenu(UserTypes privilegeLevel);
+
+    void printUserMenu(UserTypes privilegeLevel) const;
+    void printSensorMenu(UserTypes privilegeLevel) const;
+
+    bool processCommand(const vector<string> &command);
     bool processSensorCommand(const vector<string> &command);
-    void printCleaner(const Cleaner * const cleaner);
+
+    void printSensors(const vector<Sensor*> &sensors) const;
+    void printCleaners(const vector<Cleaner*> &cleaners) const;
+    void printCleaner(const Cleaner * const cleaner) const;
+    void printIndividualUsers(const vector<IndividualUser*> &users) const;
+    void printProviders(const vector<ProviderUser*> &users) const;
+    void printMeasurements(const vector<Measurement*> &measurements) const;
+
+    void printMeasurement(const Measurement &measurement);
+    void printSensorComparisonResults(const map<Sensor, double, SensorComparator> &results) const;
+    void printAirQualityResults(const string &atmoIndicator) const;
 };
