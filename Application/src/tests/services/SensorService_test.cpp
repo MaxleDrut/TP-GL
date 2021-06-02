@@ -122,16 +122,18 @@ int SensorService_test::test_FR8_quality(){
     tm requestTimeDate = {};
     istringstream rqTimeStreamDate(date);
     rqTimeStreamDate >> get_time(&requestTimeDate, "%Y-%m-%d% %H:%M:%S");
+    auto time = mktime(&requestTimeDate);
 
-    string val = service->FR8_quality(45,-2,mktime(&requestTimeDate));
+    string val = service->FR8_quality(45,-2,time);
     assert(val=="good");
 
     string date2= "2025-01-01  12:00:00";
     tm requestTimeDate2 = {};
     istringstream rqTimeStreamDate2(date2);
     rqTimeStreamDate2 >> get_time(&requestTimeDate2, "%Y-%m-%d% %H:%M:%S");
+    time = mktime(&requestTimeDate2);
 
-    string val2 = service->FR8_quality(45,-2,mktime(&requestTimeDate2));
+    string val2 = service->FR8_quality(45,-2,time);
     assert(val2=="not computable");
 
     cout<<"Test FR8_quality ok"<<endl;
@@ -203,8 +205,10 @@ int SensorService_test::test_FR7_sensorComparison() {
     rqTimeStreamDate >> get_time(&requestTimeDate, "%Y-%m-%d% %H:%M:%S");
 
     Sensor * s0 = service->getSensor("Sensor0");
-    
-    map<Sensor,double,SensorComparator> res = service->FR7_sensorComparison(*s0,mktime(&requestTimeDate),mktime(&requestTimeDate)+20*60);
+    auto start = mktime(&requestTimeDate);
+    auto end = start +20*60;
+
+    map<Sensor,double,SensorComparator> res = service->FR7_sensorComparison(*s0, start, end);
 
     //The map must contain one row : 'Sensor1 - 0.846'
     assert(res.size()==1);
@@ -215,7 +219,10 @@ int SensorService_test::test_FR7_sensorComparison() {
     //Create a fake sensor "Sensor101" not in the DataBase
     string id = "Sensor101";
     Sensor fakeSensor(id,42,69,true);
-    map<Sensor,double,SensorComparator> res2 = service->FR7_sensorComparison(fakeSensor,mktime(&requestTimeDate),mktime(&requestTimeDate)+20*60);
+    auto time = mktime(&requestTimeDate);
+    auto time2 = time+20*60;
+
+    map<Sensor,double,SensorComparator> res2 = service->FR7_sensorComparison(fakeSensor, time, time2);
     //The map must be empty
     assert(res2.size()==0);
 

@@ -46,10 +46,9 @@ private:
     void printCleaner(const Cleaner * const cleaner) const;
     void printIndividualUsers(const vector<IndividualUser*> &users) const;
     void printProviders(const vector<ProviderUser*> &users) const;
-    
+    void printMeasurements(const vector<Measurement*> &measurements) const;
 
     void printMeasurement(const Measurement &measurement);
-    void printAirQuality(double airQuality);
-    void printIndividualUser(const IndividualUser * const user);
-    
+    void printSensorComparisonResults(const map<Sensor, double, SensorComparator> &results) const;
+    void printAirQualityResults(const string &atmoIndicator) const;
 };

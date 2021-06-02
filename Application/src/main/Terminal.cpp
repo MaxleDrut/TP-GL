@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 #include "Terminal.h"
 #include "utils/utils.h"
 
@@ -222,8 +223,10 @@ bool Terminal::processCommand(const vector<string>& command)
             istringstream rqTimeStreamDate(command[3]);
             rqTimeStreamDate >> get_time(&date, "%d/%m/%Y");
 
-            // auto quality = sensorService->FR8_quality(latitude, longitude, mktime(&date));
-            // cout << quality << endl;
+            time_t date_timet = mktime(&date);
+
+            auto quality = sensorService->FR8_quality(latitude, longitude, date_timet);
+            printAirQualityResults(quality);
         }
         else
         {
@@ -269,6 +272,14 @@ bool Terminal::processCommand(const vector<string>& command)
 
 bool Terminal::processSensorCommand(const vector<string> &command)
 {
+    auto sensor = sensorService->getSensor(selectedSensorId);
+    if(sensor == nullptr)
+    {
+        cout << RED << "Error retrieving selected sensor. Leaving sensor mode." << NO_COLOR << endl;
+        selectedSensorId = "";
+        return true;
+    }
+
     if(command[0] == "measurements")
     {
         /* Handled commands:
@@ -279,16 +290,28 @@ bool Terminal::processSensorCommand(const vector<string> &command)
          * measurements <date>
          *  --> Display sensor measurements for a given date
          */
-        // TODO
-        if(command.size() == 1)
+        
+        auto measurements = sensor->getMeasurements();
+
+        if(command.size() == 1) // last 10 measurements
         {
-            // TODO measurements
-            cout << "Not implemented." << endl;
+            vector<Measurement*> lastMeasurements{};
+
+            auto it = measurements.rbegin();
+            int cpt = 10;
+            while(cpt > 0 && it != measurements.rend())
+            {
+                lastMeasurements.push_back(*it);
+                it++;
+                cpt--;
+            }
+
+            cout << "Last 10 measurements :" << endl;
+            printMeasurements(lastMeasurements);
         }
         else if(command[1] == "all")
         {
-            // TODO measurements all
-            cout << "Not implemented." << endl;
+            printMeasurements(measurements);
         }
         else
         {
@@ -302,8 +325,11 @@ bool Terminal::processSensorCommand(const vector<string> &command)
          * evaluate
          *  --> Run malfunctioning sensor detection algorithm
          */
-        // TODO
-        cout << "Not implemented." << endl;
+        auto begin_time = chrono::steady_clock::now();
+        double score = sensorService->FR5_malfunctioningAnalysis(*sensor);        
+        auto end_time = chrono::steady_clock::now();
+
+        cout << "Score = " << score << " (elapsed time: " << chrono::duration_cast<chrono::milliseconds>(end_time - begin_time).count() << " ms)" << endl;
     }
     else if(command[0] == "disable")
     {
@@ -311,8 +337,9 @@ bool Terminal::processSensorCommand(const vector<string> &command)
          * disable
          *  --> Disable this sensor. It won't be used in future computations.
          */
-        // TODO
-        cout << "Not implemented." << endl;
+        sensor->setReliable(false);
+
+        cout << BOLD << "Sensor disabled." << NO_COLOR << endl;
     }
     else if(command[0] == "enable")
     {
@@ -320,17 +347,32 @@ bool Terminal::processSensorCommand(const vector<string> &command)
          * enable
          *  --> Enable this sensor (only if disabled)
          */
-        // TODO
-        cout << "Not implemented." << endl;
+        sensor->setReliable(true);
+
+        cout << BOLD << "Sensor enabled." << NO_COLOR << endl;
     }
-    else if(command[0] == "compare")
+    else if(command[0] == "compare" && command.size() >= 3)
     {
         /* Handled commands:
-         * compare
+         * compare <start> <end>
          *  --> Display a similarity ranking between this sensor and the others
          */
-        // TODO
-        cout << "Not implemented." << endl;
+        string startDateStr = command[1];
+        string endDateStr = command[2];
+
+        tm startDate = {};
+        istringstream rqTimeStreamDate1(startDateStr);
+        rqTimeStreamDate1 >> get_time(&startDate, "%d/%m/%Y");
+
+        tm endDate = {};
+        istringstream rqTimeStreamDate2(endDateStr);
+        rqTimeStreamDate2 >> get_time(&endDate, "%d/%m/%Y");
+
+        time_t startTime = mktime(&startDate);
+        time_t endTime = mktime(&endDate);
+
+        map<Sensor, double, SensorComparator> result = sensorService->FR7_sensorComparison(*sensor, startTime, endTime);
+        printSensorComparisonResults(result);
     }
     else if(command[0] == "menu")
     {
@@ -457,8 +499,8 @@ void Terminal::printSensorMenu(UserTypes privilegeLevel) const
         << " Disable this sensor. It won't be used in future computations." << endl;
     cout << PALE_BLUE << "enable" << NO_COLOR << endl
         << " Enable this sensor to use it again in computations." << endl;
-    cout << PALE_BLUE << "compare" << NO_COLOR << endl
-        << " Display a similarity ranking between this sensor and the others." << endl;
+    cout << PALE_BLUE << "compare <start_date> <end_date>" << NO_COLOR << endl
+        << " Display a similarity ranking between this sensor and the others during a specified time period. Dates should follow this format: dd/mm/yyyy." << endl;
 
     cout << PALE_BLUE << "help" << NO_COLOR << endl << " Display this help message." << endl;
     cout << TURQUOISE << "menu" << NO_COLOR << endl << " Go back to main menu." << endl;
@@ -509,11 +551,14 @@ void Terminal::printCleaners(const vector<Cleaner*> &cleaners) const
     cout << "Registered cleaners :" << endl;
     for(auto &cleaner : cleaners)
     {
+        auto start_time = cleaner->getStart();
+        auto stop_time = cleaner->getStop();
+
         cout << "Cleaner{id=" << cleaner->getIdentifier()
              << ", latitude=" << cleaner->getLatitude() 
              << ", longitude=" << cleaner->getLongitude() 
-             << ", start_date=" << cleaner->getStart()
-             << ", stop_date=" << cleaner->getStop()
+             << ", start_date=" << timestampToString(start_time)
+             << ", stop_date=" << timestampToString(stop_time)
              << "}" << endl;
     }
     cout << cleaners.size() << " cleaner" << (cleaners.size() != 1 ? "s" : "") << " printed." << endl;
@@ -521,31 +566,88 @@ void Terminal::printCleaners(const vector<Cleaner*> &cleaners) const
 
 void Terminal::printCleaner(const Cleaner *const cleaner) const
 {
-    // TODO
+    cout << "Cleaner (id " << cleaner->getIdentifier() << "): " << endl;
+    cout << "   Position: lat=" << cleaner->getLatitude() << " long=" << cleaner->getLongitude() << endl;
+    
+    auto start_time = cleaner->getStart();
+    auto stop_time = cleaner->getStop();
+    cout << "   Uptime period: " << timestampToString(start_time) << " to " << timestampToString(stop_time) << endl;
 }
 
 void Terminal::printIndividualUsers(const vector<IndividualUser*> &users) const
 {
-    // TODO
+    cout << "List of individual users: " << endl;
+    for(auto &user : users)
+    {
+        cout << TURQUOISE << "ID: " << user->getIdentifier() << NO_COLOR << endl;
+        cout << user->getSensors().size() << " sensor(s) registered." << endl;
+        if(user->getSensors().size() > 0)
+        {
+            cout << "Sensors: " << endl;
+            for(auto &sensor : user->getSensors())
+            {
+                cout << "Sensor{id=" << sensor->getIdentifier() 
+                     << ", latitude=" << sensor->getLatitude() 
+                     << ", longitude=" << sensor->getLongitude() 
+                     << ", reliable=" << (sensor->getReliable() ? "yes" : "no")
+                     << "}" << endl;
+            }
+        }
+        cout << endl;
+    }
+
+    cout << users.size() << " user" << (users.size() != 1 ? "s" : "") << " printed." << endl;
 }
 
-void Terminal::printProviders(const vector<ProviderUser*> &users) const
+void Terminal::printProviders(const vector<ProviderUser*> &providers) const
 {
-    // TODO
+    cout << "Registered providers: " << endl;
+    for(auto &provider : providers)
+    {
+        cout << TURQUOISE << "ID: " << provider->getIdentifier() << NO_COLOR << endl;
+        cout << provider->getCleaners().size() << " cleaner(s) registered." << endl;
+        if(provider->getCleaners().size() > 0)
+        {
+            cout << "Cleaners: " << endl;
+            for(auto &cleaner : provider->getCleaners())
+            {
+                cout << "Cleaner (id " << cleaner->getIdentifier() << "): " << endl;
+                cout << "   Position: lat=" << cleaner->getLatitude() << " long=" << cleaner->getLongitude() << endl;
+
+                auto start_time = cleaner->getStart();
+                auto stop_time = cleaner->getStop();
+                cout << "   Uptime period: " << timestampToString(start_time) << " to " << timestampToString(stop_time) << endl;
+            }
+        }
+        cout << endl;
+    }
+
+    cout << providers.size() << " provider" << (providers.size() != 1 ? "s" : "") << " printed." << endl;
 }
 
-void Terminal::printAirQuality(double airQuality)
+void Terminal::printMeasurements(const vector<Measurement*> &measurements) const
 {
-
+    for(auto &measurement : measurements)
+    {
+        auto timestamp = measurement->getTimestamp();
+        cout << timestampToString(timestamp) << ": " 
+            << measurement->getAttribute()->getIdentifier() << "=" 
+            << measurement->getValue() << " " << measurement->getAttribute()->getUnit() 
+            << endl;
+    }
 }
 
-void Terminal::printIndividualUser(const IndividualUser *const user)
+// TODO memcopy for each sensors : smells like sh*t to me
+void Terminal::printSensorComparisonResults(const map<Sensor, double, SensorComparator> &results) const
 {
-
+    cout << "Similarity with sensor: " << endl;
+    for(auto &result : results)
+    {
+        cout << "with " << result.first.getIdentifier() << ": " << (result.second * 100) << "%" << endl;
+    }
 }
 
-
-void Terminal::printMeasurement(const Measurement &measurement)
+void Terminal::printAirQualityResults(const string &atmoIndicator) const
 {
-
+    cout << "Air quality: " << atmoIndicator << endl;
 }
