@@ -12,6 +12,9 @@ enum UserTypes {
     NONE
 };
 
+string UserTypeToString(UserTypes &userType);
+
+
 class User
 {
 private:
@@ -21,7 +24,7 @@ private:
 public:
     User() = default;
 
-    User(string &identifier, string &password): identifier(identifier), password(password) { cout << "------------- " << identifier << " " << password << endl; };
+    User(string &identifier, string &password): identifier(identifier), password(password) {};
 
     virtual ~User() = default;
 
@@ -35,3 +38,4 @@ public:
         return password;
     }
 };
+

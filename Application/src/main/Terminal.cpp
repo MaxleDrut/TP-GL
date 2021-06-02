@@ -1,6 +1,8 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <sstream>
+#include <iomanip>
 #include "Terminal.h"
 #include "utils/utils.h"
 
@@ -45,17 +47,13 @@ void Terminal::printAuthPrompt()
 
         User *user = userService->authenticate(login, password);
         authSuccess = user != nullptr;
-        
-        cout << user << endl;
-
-        return;
 
         if(authSuccess)
         {
             userId = login;
             userPassword = password;
             userType = userService->getPrivilege(user->getIdentifier());
-            cout << "Connected as " << userId << "." << " (" << userType << ")" << endl;
+            cout << BOLD << "Logged in as " << userId << "." << " (" << UserTypeToString(userType) << ")" << NO_COLOR << endl;
         }
         else
         {
@@ -122,11 +120,16 @@ bool Terminal::processCommand(const vector<string>& command)
         {
             string sensorId = command[2];
 
-            // TODO get sensor
-
-            selectedSensorId = sensorId;
-
-            cout << "Selected sensor with id " << sensorId << "." << endl;
+            Sensor *sensor = sensorService->getSensor(sensorId);
+            if(sensor != nullptr)
+            {
+                selectedSensorId = sensorId;
+                cout << "Selected sensor with id " << sensorId << "." << endl;
+            }
+            else
+            {
+                cout << RED << "No sensor with id " << sensorId << "." << NO_COLOR << endl;
+            }
         }
         else
         {
@@ -150,7 +153,7 @@ bool Terminal::processCommand(const vector<string>& command)
          *
          * [GOV only]
          *  get users
-         *  --> Displays the names of users and their sensors
+         *  --> Displays the names of individual users and their sensors
          *
          * [GOV only]
          *  get providers
@@ -160,29 +163,38 @@ bool Terminal::processCommand(const vector<string>& command)
 
         if(command[1] == "sensors")
         {
-            // TODO
-            cout << "Not implemented." << endl;
+            auto sensors = sensorService->getSensors();
+            printSensors(sensors);
         }
         else if(command[1] == "cleaners" && (userType == UserTypes::GOVERNMENT || userType == UserTypes::PROVIDER))
         {
-            // TODO
-            cout << "Not implemented." << endl;
+            auto cleaners = cleanerService->getCleaners();
+            printCleaners(cleaners);
         }
         else if(command[1] == "cleaner" && command.size() > 2
                 && (userType == UserTypes::GOVERNMENT || userType == UserTypes::PROVIDER))
         {
-            // TODO
-            cout << "Not implemented." << endl;
+            string cleanerId = command[2];
+            auto cleaner = cleanerService->getCleaner(cleanerId);
+            
+            if(cleaner != nullptr)
+            {
+                printCleaner(cleaner);
+            }
+            else
+            {
+                cout << RED << "No cleaner with id " << cleanerId << "." << NO_COLOR << endl;
+            }
         }
         else if(command[1] == "users" && userType == UserTypes::GOVERNMENT)
         {
-            // TODO
-            cout << "Not implemented." << endl;
+            auto users = userService->getIndividualUsers();
+            printIndividualUsers(users);
         }
         else if(command[1] == "providers" && userType == UserTypes::GOVERNMENT)
         {
-            // TODO
-            cout << "Not implemented." << endl;
+            auto providers = userService->getProviderUsers();
+            printProviders(providers);
         }
         else
         {
@@ -199,13 +211,19 @@ bool Terminal::processCommand(const vector<string>& command)
          */
         if(command.size() == 6)
         {
-            // TODO
             cout << "Not implemented." << endl;
         }
         else if(command.size() == 4)
         {
-            // TODO
-            cout << "Not implemented." << endl;
+            double latitude = stod(command[1]);
+            double longitude = stod(command[2]);
+            
+            tm date = {};
+            istringstream rqTimeStreamDate(command[3]);
+            rqTimeStreamDate >> get_time(&date, "%d/%m/%Y");
+
+            // auto quality = sensorService->FR8_quality(latitude, longitude, mktime(&date));
+            // cout << quality << endl;
         }
         else
         {
@@ -220,13 +238,25 @@ bool Terminal::processCommand(const vector<string>& command)
          */
         printUserMenu(userType);
     }
+    else if(command[0] == "logout")
+    {
+        /* Handled commands:
+         *  logout 
+         *  --> Disconnect from current user session
+         */
+        userId = "";
+        userPassword = "";
+        userType = UserTypes::NONE;
+
+        cout << BOLD << "You were successfully disconnected!" << NO_COLOR << endl;
+    }
     else if(command[0] == "exit")
     {
         /* Handled commands:
          *  exit
          *  --> leave the application
          */
-        cout << "Exiting the application. Bye !" << endl;
+        cout << BOLD << "Exiting the application. Bye !" << NO_COLOR << endl;
         exit(0);
     }
     else
@@ -317,7 +347,7 @@ bool Terminal::processSensorCommand(const vector<string> &command)
          *  exit
          *  --> leave the application
          */
-        cout << "Exiting the application. Bye !" << endl;
+        cout << BOLD << "Exiting the application. Bye !" << NO_COLOR << endl;
         exit(0);
     }
     else if(command[0] == "help")
@@ -336,7 +366,7 @@ bool Terminal::processSensorCommand(const vector<string> &command)
     return true;
 }
 
-void Terminal::printUserMenu(UserTypes privilegeLevel)
+void Terminal::printUserMenu(UserTypes privilegeLevel) const
 {
     cout << BOLD << "Available commands: " << NO_COLOR << endl;
 
@@ -371,6 +401,7 @@ void Terminal::printUserMenu(UserTypes privilegeLevel)
          << " Display the quality of air at a specific point and time." << endl;
 
     cout << PALE_BLUE << "help" << NO_COLOR << endl << " Display this message." << endl;
+    cout << TURQUOISE << "logout" << NO_COLOR << endl << " Disconnect from current user session." << endl;
     cout << TURQUOISE << "exit" << NO_COLOR << endl << " Close the application." << endl;
 
 
@@ -402,11 +433,13 @@ void Terminal::printUserMenu(UserTypes privilegeLevel)
      * ---> Displays the quality of air at a specific spot and time
      *
      * help --> show this message
+     * 
+     * logout --> Disconnect from current user session.
      *
      */
 }
 
-void Terminal::printSensorMenu(UserTypes privilegeLevel)
+void Terminal::printSensorMenu(UserTypes privilegeLevel) const
 {
     cout << BOLD << "You have selected sensor with id " << selectedSensorId << "." << endl;
     cout << "Available commands: " << NO_COLOR << endl;
@@ -457,9 +490,48 @@ void Terminal::printSensorMenu(UserTypes privilegeLevel)
      */
 }
 
-void Terminal::printSensors(const vector<Sensor> &sensors)
+void Terminal::printSensors(const vector<Sensor *> &sensors) const
 {
+    cout << "Registered sensors :" << endl;
+    for(auto &sensor : sensors)
+    {
+        cout << "Sensor{id=" << sensor->getIdentifier() 
+             << ", latitude=" << sensor->getLatitude() 
+             << ", longitude=" << sensor->getLongitude() 
+             << ", reliable=" << (sensor->getReliable() ? "yes" : "no")
+             << "}" << endl;
+    }
+    cout << sensors.size() << " sensor" << (sensors.size() != 1 ? "s" : "") << " printed." << endl;
+}
 
+void Terminal::printCleaners(const vector<Cleaner*> &cleaners) const
+{
+    cout << "Registered cleaners :" << endl;
+    for(auto &cleaner : cleaners)
+    {
+        cout << "Cleaner{id=" << cleaner->getIdentifier()
+             << ", latitude=" << cleaner->getLatitude() 
+             << ", longitude=" << cleaner->getLongitude() 
+             << ", start_date=" << cleaner->getStart()
+             << ", stop_date=" << cleaner->getStop()
+             << "}" << endl;
+    }
+    cout << cleaners.size() << " cleaner" << (cleaners.size() != 1 ? "s" : "") << " printed." << endl;
+}
+
+void Terminal::printCleaner(const Cleaner *const cleaner) const
+{
+    // TODO
+}
+
+void Terminal::printIndividualUsers(const vector<IndividualUser*> &users) const
+{
+    // TODO
+}
+
+void Terminal::printProviders(const vector<ProviderUser*> &users) const
+{
+    // TODO
 }
 
 void Terminal::printAirQuality(double airQuality)
@@ -472,10 +544,6 @@ void Terminal::printIndividualUser(const IndividualUser *const user)
 
 }
 
-void Terminal::printCleaner(const Cleaner *const cleaner)
-{
-
-}
 
 void Terminal::printMeasurement(const Measurement &measurement)
 {

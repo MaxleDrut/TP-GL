@@ -1,7 +1,7 @@
 #include "services/SensorService.h"
 
 
-SensorService::SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors){
+SensorService::SensorService(vector<Attribute *> &attributes, vector<Sensor *> &sensors){
     this->attributes = move(attributes);
     this->sensors = move(sensors);
 }
@@ -18,7 +18,7 @@ Sensor * SensorService::getSensor(string identifier) {
 
     for(Sensor * sensor : this->sensors)
     {
-        if(sensor->getIdentifier()==identifier)
+        if(sensor->getIdentifier() == identifier)
         {
             return sensor;
         }

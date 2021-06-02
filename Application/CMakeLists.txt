@@ -23,7 +23,12 @@ add_executable(Application_main
         src/main/main.cpp
         src/main/Terminal.cpp
 
-        src/main/services/UserService.cpp src/tests/services/UserService_test.cpp)
+        src/main/services/UserService.cpp
+        src/main/services/LoadService.cpp
+        src/main/services/SensorService.cpp
+        src/main/services/CleanerService.cpp
+
+        )
 
 add_executable(Application_tests
 

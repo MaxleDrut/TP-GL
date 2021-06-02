@@ -5,7 +5,7 @@
 
 using namespace std;
 
-UserService::UserService(vector<User *> users){
+UserService::UserService(const vector<User *> &users){
     this->users = move(users);
 }
 
@@ -14,19 +14,9 @@ UserService::~UserService(){}
 User * UserService::authenticate(const string &login, const string &pass)
 {
     // check if login exists in users
-    for(size_t i = 0; i < users.size(); i++)
-    {
-        cout << users[i]->getIdentifier() << endl;
-    }
-
-    return nullptr;
-
     for(auto &user : users)
     {
-        cout << &user << endl;
-        continue;
-
-        if(user->getIdentifier() == login && user->getPassword() == pass)
+        if(user->getIdentifier().compare(login) == 0 && user->getPassword().compare(pass) == 0)
         {
             return user;
         }
@@ -80,4 +70,9 @@ UserTypes UserService::getPrivilege(const string identifier) const{
         return UserTypes::GOVERNMENT;
     }
     return UserTypes::NONE;
+}
+
+vector<User *> UserService::getUsers() const 
+{
+    return users;
 }

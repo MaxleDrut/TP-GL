@@ -20,7 +20,7 @@ class UserService
 
     public:
 
-        UserService(vector<User *> users);
+        UserService(const vector<User *> &users);
 
         virtual ~UserService();
 

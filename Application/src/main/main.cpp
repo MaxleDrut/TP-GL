@@ -1,18 +1,26 @@
 #include <iostream>
 #include <string>
 
-#include "Terminal.h"
+/*#include "Terminal.h"
 #include "services/LoadService.h"
 #include "services/SensorService.h"
 #include "services/CleanerService.h"
 #include "services/UserService.h"
-#include "utils/utils.h"
+#include "utils/utils.h"*/
+
+#include "../../include/main/Terminal.h"
+#include "../../include/main/services/LoadService.h"
+#include "../../include/main/services/SensorService.h"
+#include "../../include/main/services/CleanerService.h"
+#include "../../include/main/services/UserService.h"
+#include "../../include/main/utils/utils.h"
 
 using namespace std;
 
 SensorService *sensorService;
 UserService *userService;
 CleanerService *cleanerService;
+
 
 void loadApp()
 {
@@ -49,9 +57,14 @@ void loadApp()
 
     cout << GREY << "Creating service objects... ";
 
-    sensorService = new SensorService(loadService->getAttributes(), loadService->getSensors());
-    userService = new UserService(loadService->getUsers());
-    cleanerService = new CleanerService(loadService->getCleaners());
+    auto sensors = loadService->getSensors();
+    auto attributes = loadService->getAttributes();
+    auto users = loadService->getUsers();
+    auto cleaners = loadService->getCleaners();
+
+    sensorService = new SensorService(attributes, sensors);
+    userService = new UserService(std::move(loadService->getUsers()));
+    cleanerService = new CleanerService(cleaners);
 
     cout << "DONE" << NO_COLOR << endl;
 }

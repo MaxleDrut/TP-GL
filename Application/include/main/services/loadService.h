@@ -37,7 +37,7 @@ class LoadService
         bool loadCleaners(string  & file);
         bool loadSensors(string & sensorFile, string & measurementFile, string & attributeFile);
         bool loadUsers(const string userFile, const string providerFile, const string governmentFile, const string passwordFile);
-        
+
         vector<Cleaner *> getCleaners();
         vector<User *> getUsers();
         vector<Sensor *> getSensors();
