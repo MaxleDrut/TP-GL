@@ -21,6 +21,7 @@ User * UserService::authenticate(const string &login, const string &pass)
             return user;
         }
     }
+    return nullptr;
     
     return nullptr;
 }

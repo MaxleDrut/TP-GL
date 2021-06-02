@@ -8,7 +8,7 @@ Algorithm FR7_sensorComparison is
     function getAllSensors() -> Sensor[] allSensors
 
     // Calculates the average value of a targetted attribute of a sensor between t1 and t2
-    function FR7_averageValue(Sensor sensor, Attibute targetAttribute, timestamp t1, timestamp t2)
+    function FR7_averageValue(Sensor sensor, Attribute targetAttribute, timestamp t1, timestamp t2)
         var Double sum := 0
         var Integer checkedMeasurement :=0
         for each measurement in sensor.measurements
@@ -16,7 +16,7 @@ Algorithm FR7_sensorComparison is
                 sum += measurement.value
                 checkedMeasurement+=1
 
-        return sum/checedMeasurement
+        return sum/checkedMeasurement
     
 
     //Calculates the proximity of all sensors compared to the targetted sensor: Calculates the relative gap between the average target value and the other sensors. Returns a map of all sensors with their target's proximity
@@ -24,10 +24,10 @@ Algorithm FR7_sensorComparison is
 
         var Map<Sensor, double> proximity
 
-        var Double refValues[4]; //Stores the average value of the target sensor
+        var Map<Attribute, Double> refValues[4]; //Stores the average value of the target sensor
         var Integer i:=0
         for each attribute //NO2, O3, PM10...
-            refValues[i] := FR7_averageValue(sensorToCompare,attribute,t1,t2)
+            refValues[Attribute] := FR7_averageValue(sensorToCompare,attribute,t1,t2)
             i+=1
         
         for each sensor in getAllSensors()

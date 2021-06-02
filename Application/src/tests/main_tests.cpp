@@ -38,22 +38,21 @@ void tests_LoadService() {
     string filePassword= "res/test/password.csv";
     loadServcie.test_loadUsers(fileUsers,fileProviders,fileGovernment,filePassword);
     
-    cout<<"Test done"<<endl;
+    cout<<"Test of LoadService done"<<endl;
+    
 
 }
 
 void tests_UserService(){
     UserService_test userService;
 
-    string id = "Provider0";
-    string pass = "provider0";
-    userService.test_authentificate(id,pass);
-
+    
+    userService.test_authentificate();
     userService.test_getIndividualUsers();
     userService.test_getProviderUsers();
     userService.test_getPrivilege();
 
-    cout<<"Test done"<<endl;
+    cout<<"Tests of UserService done"<<endl;
 }
 
 
@@ -63,6 +62,14 @@ void tests_SensorService(){
     
     sensorService.test_getSensors();
     sensorService.test_getSensor();
+    sensorService.test_isGivenTimeInsideTimePeriod();
+    sensorService.test_distanceBetweenPositions();
+    sensorService.test_convertValuesAttributesToATMOScore();
+    sensorService.test_FR8_qualityAttributes();
+    sensorService.test_FR8_quality();
+    sensorService.test_FR5_malfunctioningAnalysis();
+    sensorService.test_FR7_averageValue();
+    sensorService.test_FR7_sensorComparison();
 
-    cout<<"Test done"<<endl;
+    cout<<"Test of SensorService done"<<endl;
 }

@@ -18,13 +18,25 @@ UserService_test::~UserService_test(){
     delete userServ;
 }
 
-int UserService_test::test_authentificate(const string login, const string pass)
+int UserService_test::test_authentificate()
 {
-    User * user = userServ->authenticate(login,pass);
+    string id = "Provider5";
+    string pass = "provider0";
+
+    User *  user = userServ->authenticate(id,pass);
+    assert(user==nullptr);
+
+    //TODO
+    id = "Provider0";
+    pass = "provider0";
+
+    user = userServ->authenticate(id,pass);
     assert(user->getIdentifier()=="Provider0");
     assert(user->getPassword()=="provider0");
 
-    cout<<"Authentification success"<<endl;
+    
+
+    cout<<"Test Authentification success"<<endl;
 
     return 0;
 }

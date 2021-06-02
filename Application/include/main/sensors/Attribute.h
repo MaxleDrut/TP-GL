@@ -28,6 +28,13 @@ public:
     virtual string getIdentifier() const {
         return identifier;
     }
+};
 
-    // friend ostream& operator <<(ostream &out, Attribute &attribute);
+class AttributeComparator
+{
+public:
+    bool operator() (const Attribute &a1, const Attribute &a2) const {
+        return a1.getIdentifier() < a2.getIdentifier();
+    }
+    // ex: map<Attribute, double, AttributeComparator> mapAttributeDouble;
 };
