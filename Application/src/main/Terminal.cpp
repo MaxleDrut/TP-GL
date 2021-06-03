@@ -330,7 +330,7 @@ bool Terminal::processSensorCommand(const vector<string> &command)
         double score = sensorService->FR5_malfunctioningAnalysis(*sensor);        
         auto end_time = chrono::steady_clock::now();
 
-        cout << "Score = " << score << " (elapsed time: " << chrono::duration_cast<chrono::milliseconds>(end_time - begin_time).count() << " ms)" << endl;
+        cout << "Divergence = " << score << " (elapsed time: " << chrono::duration_cast<chrono::milliseconds>(end_time - begin_time).count() << " ms)" << endl;
     }
     else if(command[0] == "disable")
     {
