@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <ctime>
 
 using namespace std;
 
@@ -26,11 +27,5 @@ using namespace std;
 #define debugtv(exp, var) ((void)0)
 #endif
 
-string timestampToString(time_t &time)
-{
-    tm *ptm = localtime(&time);
-    char buffer[64];
-    strftime(buffer, 64, "%d/%m/%Y %H:%M:%S", ptm);
 
-    return string(buffer);
-}
+string timestampToString(time_t &time);

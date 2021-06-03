@@ -210,6 +210,7 @@ bool Terminal::processCommand(const vector<string>& command)
          *  airQ <latitude> <longitude> <date>
          *  --> Displays the quality of air at a specific spot and time
          */
+        
         if(command.size() == 6)
         {
             cout << "Not implemented." << endl;

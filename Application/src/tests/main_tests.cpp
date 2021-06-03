@@ -40,13 +40,11 @@ void tests_LoadService() {
     
     cout<<"Test of LoadService done"<<endl;
     
-
 }
 
 void tests_UserService(){
     UserService_test userService;
 
-    
     userService.test_authentificate();
     userService.test_getIndividualUsers();
     userService.test_getProviderUsers();
