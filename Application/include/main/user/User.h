@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -11,22 +12,30 @@ enum UserTypes {
     NONE
 };
 
+string UserTypeToString(UserTypes &userType);
+
+
 class User
 {
-protected:
+private:
     string identifier;
     string password;
     
 public:
     User() = default;
 
-    string getIdentifier()
+    User(string &identifier, string &password): identifier(identifier), password(password) {};
+
+    virtual ~User() = default;
+
+    virtual string getIdentifier() const
     {
-        return this->identifier;
+        return identifier;
     }
 
-    string getPassword()
+    virtual string getPassword() const
     {
-        return this->password;
+        return password;
     }
 };
+

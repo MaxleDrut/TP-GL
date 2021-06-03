@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <ctime>
+#include <iostream>
+#include <limits>
 #include <fstream>
 #include "sensors/Attribute.h"
 #include "sensors/Sensor.h"
@@ -19,15 +21,15 @@ class SensorService {
 
     public :
         SensorService() = default;
-        SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors);
+        SensorService(vector<Attribute *> &attributes, vector<Sensor *> &sensors);
         virtual ~SensorService() = default;
 
         vector<Sensor *> getSensors();
         vector<Attribute *> getAttributes();
         Sensor * getSensor(string identifier);
-        double FR5_malfunctioningAnalysis(Sensor sensorToCheck);
-        string FR8_quality(double latitude, double longitude, time_t time);
-        map<Sensor,double, SensorComparator> FR7_sensorComparison(Sensor sensorToCompare, time_t t1, time_t t2);
+        double FR5_malfunctioningAnalysis(Sensor &sensorToCheck);
+        string FR8_quality(double latitude, double longitude, time_t &time);
+        map<Sensor,double, SensorComparator> FR7_sensorComparison(Sensor &sensorToCompare, time_t &t1, time_t &t2);
         
     private:
         map<Attribute *, double> FR8_qualityAttributesExcludeSensor(

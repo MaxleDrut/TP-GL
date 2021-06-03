@@ -30,7 +30,13 @@ bool LoadService::loadCleaners(string & file){
 
     if(flux.is_open()){
         getline(flux,line);
+
         while(line!="\0"){
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos = 0;
             string id = loadInfo(line,pos);
             string latitude = loadInfo(line,pos);
@@ -69,7 +75,13 @@ bool LoadService::loadSensors(string & sensorFile, string & measurementFile, str
 
         //Attributes 
         getline(fluxAttribute,line);
+
         while(line!="\0") {
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos=0;
             string id = loadInfo(line,pos);
             string unit = loadInfo(line,pos);
@@ -77,12 +89,18 @@ bool LoadService::loadSensors(string & sensorFile, string & measurementFile, str
             attributes.push_back(new Attribute(unit,description,id));
             
             getline(fluxAttribute,line);
+            
         }
 
        
        //Sensors
         getline(fluxSensor,line);
         while(line!="\0") {
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos=0;
             string id = loadInfo(line,pos);
             string latitude = loadInfo(line,pos);
@@ -97,6 +115,11 @@ bool LoadService::loadSensors(string & sensorFile, string & measurementFile, str
         //Measurements
         getline(fluxMeasurement,line);
         while(line!="\0") {
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos=0;
             string date = loadInfo(line,pos);
             string sensorId = loadInfo(line,pos);
@@ -149,6 +172,11 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
         //Password and login
         getline(fluxPassword,line);
         while(line!="\0"){
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos = 0;
             string id = loadInfo(line,pos);
             string password=loadInfo(line,pos);
@@ -170,6 +198,11 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
         //Individual Users
         getline(fluxUser,line);
         while(line!="\0"){
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos=0;
             string id = loadInfo(line,pos);
             string sensorId = loadInfo(line,pos);
@@ -189,6 +222,11 @@ bool LoadService::loadUsers (const string userFile, const string providerFile, c
         //Provider Users
         getline(fluxProvider,line);
         while(line!="\0"){
+            if(line[line.size() - 1] == '\r')
+            {
+                line = line.substr(0, line.size() - 1);
+            }
+
             int pos=0;
             string id = loadInfo(line,pos);
             string cleanerId = loadInfo(line,pos);

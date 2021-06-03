@@ -1,11 +1,8 @@
 #include "services/SensorService.h"
 
-
-#include <map>
-#include <iostream>
 using namespace std;
 
-SensorService::SensorService(vector<Attribute *> attributes, vector<Sensor *> sensors){
+SensorService::SensorService(vector<Attribute *> &attributes, vector<Sensor *> &sensors){
     this->attributes = move(attributes);
     this->sensors = move(sensors);
 }
@@ -22,7 +19,7 @@ Sensor * SensorService::getSensor(string identifier) {
 
     for(Sensor * sensor : this->sensors)
     {
-        if(sensor->getIdentifier()==identifier)
+        if(sensor->getIdentifier() == identifier)
         {
             return sensor;
         }
@@ -32,7 +29,7 @@ Sensor * SensorService::getSensor(string identifier) {
 
 
 // functions for FR5 algorithm
-double SensorService::FR5_malfunctioningAnalysis(Sensor sensorToCheck) {
+double SensorService::FR5_malfunctioningAnalysis(Sensor &sensorToCheck) {
     double relativeSum = 0.0;
     int nbOfMeasurementsForSensorToCheck = 0;
     
@@ -90,14 +87,14 @@ double SensorService::FR7_averageValue(
     if(checkedMeasurement!=0) {
         return sum/checkedMeasurement;
     } else {
-        return NULL; //can't divide by zero
+        return numeric_limits<double>::lowest(); // can't divide by zero
     }
 }
 
 map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
-        Sensor sensorToCompare, 
-        time_t t1, 
-        time_t t2
+        Sensor &sensorToCompare, 
+        time_t &t1, 
+        time_t &t2
     ) {
 
     //Check if the sensor is in the database by asking for the sensor's identified
@@ -125,7 +122,7 @@ map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
                     *sensor, currentAttribute, t1, t2
                 );
                 double currentRefValue = refValues[currentAttribute];
-                if(currentRefValue != NULL && currentAverage != NULL) {
+                if(currentRefValue != numeric_limits<double>::lowest() && currentAverage != numeric_limits<double>::lowest()) {
                     relativeGap += abs(currentAverage - currentRefValue)/currentRefValue;
                     countedMeasurements++;
                 }
@@ -133,8 +130,8 @@ map<Sensor, double, SensorComparator> SensorService::FR7_sensorComparison(
             if(countedMeasurements>0) {
                 relativeGap = relativeGap/countedMeasurements;
                 proximity[*sensor] = 1/(relativeGap + 1);
-            } else { //if the sensor had no measurements, the relative gap can't be calculated, thus we can't compare sensors 
-                proximity[*sensor] = NULL;
+            } else {  //if the sensor had no measurements, the relative gap can't be calculated, thus we can't compare sensors 
+                proximity[*sensor] = numeric_limits<double>::lowest();
             }
         }
     }
@@ -167,7 +164,7 @@ map<Attribute *,double> SensorService::FR8_qualityAttributes(double latitude, do
         if(denominatorS[it] != 0) { //Do the final ratio only if we found at least one value. Else we would divide by zero
             numeratorS[it] = numeratorS[it] / denominatorS[it];
         } else { //In that case, defines a null value
-            numeratorS[it] = NULL;
+            numeratorS[it] = numeric_limits<double>::lowest();
         }
     }
     
@@ -207,7 +204,7 @@ map<Attribute*, double> SensorService::FR8_qualityAttributesExcludeSensor(
         if(denominatorS[it] != 0) { //Do the final ratio only if we found at least one value. Else we would divide by zero
             numeratorS[it] = numeratorS[it] / denominatorS[it];
         } else { //In that case, defines a null value
-            numeratorS[it] = NULL;
+            numeratorS[it] = numeric_limits<double>::lowest();
         }
     }
     
@@ -215,7 +212,7 @@ map<Attribute*, double> SensorService::FR8_qualityAttributesExcludeSensor(
 
 }
 
-string SensorService::FR8_quality(double latitude, double longitude, time_t time) {
+string SensorService::FR8_quality(double latitude, double longitude, time_t &time) {
 
     //Converts attributes to string to ease the ATMO score algor
     map<Attribute *,double> meanAttributes = FR8_qualityAttributes(latitude,longitude,time);
@@ -261,20 +258,20 @@ string SensorService::convertValuesAttributesToATMOScore(map<string,double> valu
     int  indexWorst = -1;
     int levelAtmo=-1;
 
-    if(values["03"] != NULL) {
-        if(values["O3"]>=0 && values["O3"]<=54){
+    if(values["03"] != numeric_limits<double>::lowest()) {
+        if(values["O3"]>=0.0 && values["O3"]<55.0){
             levelAtmo=1;
             
-        }else if(values["O3"]>=55 && values["O3"]<=104){
+        }else if(values["O3"]>=55.0 && values["O3"]<105.0){
             levelAtmo=2;
             
-        }else if(values["O3"]>=105 && values["O3"]<=129){;
+        }else if(values["O3"]>=105.0 && values["O3"]<130.0){;
             levelAtmo=3;   
-        }else if(values["O3"]>=130 && values["O3"]<=179){;
+        }else if(values["O3"]>=130.0 && values["O3"]<180.0){;
             levelAtmo=4;
-        }else if(values["O3"]>=180 && values["O3"]<=239){;
+        }else if(values["O3"]>=180.0 && values["O3"]<240.0){;
             levelAtmo=5;
-        }else{
+        }else if(values["03"]>=240.0) { //To take into account the - infinity value if not computable
             levelAtmo=6;
         }
         
@@ -284,20 +281,20 @@ string SensorService::convertValuesAttributesToATMOScore(map<string,double> valu
         }
     }
     
-    if(values["SO2"] != NULL) {
-        if(values["SO2"]>=0 && values["SO2"]<=79){
+    if(values["SO2"] != numeric_limits<double>::lowest()) {
+        if(values["SO2"]>=0.0 && values["SO2"]<80.0){
             levelAtmo=1;
             
-        }else if(values["SO2"]>=80 && values["SO2"]<=159){
+        }else if(values["SO2"]>=80.0 && values["SO2"]<160.0){
             levelAtmo=2;
             
-        }else if(values["SO2"]>=160 && values["SO2"]<=199){;
+        }else if(values["SO2"]>=160.0 && values["SO2"]<200.0){;
             levelAtmo=3;   
-        }else if(values["SO2"]>=200 && values["SO2"]<=299){;
+        }else if(values["SO2"]>=200.0 && values["SO2"]<300.0){;
             levelAtmo=4;
-        }else if(values["SO2"]>=300 && values["SO2"]<=499){;
+        }else if(values["SO2"]>=300.0 && values["SO2"]<500.0){;
             levelAtmo=5;
-        }else{
+        }else if(values["SO2"]>=500.0){
             levelAtmo=6;
         }
     
@@ -306,20 +303,20 @@ string SensorService::convertValuesAttributesToATMOScore(map<string,double> valu
         }
     }
 
-    if(values["NO2"] != NULL) {
-        if(values["NO2"]>=0 && values["NO2"]<=54){
+    if(values["NO2"] != numeric_limits<double>::lowest()) {
+        if(values["NO2"]>=0.0 && values["NO2"]<55.0){
             levelAtmo=1;
             
-        }else if(values["NO2"]>=55 && values["NO2"]<=109){
+        }else if(values["NO2"]>=55.0 && values["NO2"]<110.0){
             levelAtmo=2;
             
-        }else if(values["NO2"]>=110 && values["NO2"]<=134){;
+        }else if(values["NO2"]>=110.0 && values["NO2"]<135.0){;
             levelAtmo=3;   
-        }else if(values["NO2"]>=135 && values["NO2"]<=199){;
+        }else if(values["NO2"]>=135.0 && values["NO2"]<200.0){;
             levelAtmo=4;
-        }else if(values["NO2"]>=200 && values["NO2"]<=399){;
+        }else if(values["NO2"]>=200.0 && values["NO2"]<400.0){;
             levelAtmo=5;
-        }else{
+        }else if(values["NO2"]>=400.0){
             levelAtmo=6;
         }
         
@@ -328,20 +325,20 @@ string SensorService::convertValuesAttributesToATMOScore(map<string,double> valu
         }
     }
 
-    if(values["PM10"] != NULL) {
-        if(values["PM10"]>=0 && values["PM10"]<=54){
+    if(values["PM10"] != numeric_limits<double>::lowest()) {
+        if(values["PM10"]>=0.0 && values["PM10"]<55.0){
             levelAtmo=1;
             
-        }else if(values["PM10"]>=55 && values["PM10"]<=109){
+        }else if(values["PM10"]>=55.0 && values["PM10"]<110.0){
             levelAtmo=2;
             
-        }else if(values["PM10"]>=110 && values["PM10"]<=134){;
+        }else if(values["PM10"]>=110.0 && values["PM10"]<135.0){;
             levelAtmo=3;   
-        }else if(values["PM10"]>=135 && values["PM10"]<=199){;
+        }else if(values["PM10"]>=135.0 && values["PM10"]<200.0){;
             levelAtmo=4;
-        }else if(values["PM10"]>=200 && values["PM10"]<=399){;
+        }else if(values["PM10"]>=200.0 && values["PM10"]<400.0){;
             levelAtmo=5;
-        }else{
+        }else if(values["PM10"]>=400.0){
             levelAtmo=6;
         }
         

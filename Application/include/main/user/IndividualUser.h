@@ -15,11 +15,7 @@ private:
     vector<Sensor *> sensors{};
     
 public:
-    IndividualUser(string &identifier, string &password)
-    {
-        this->identifier = identifier;
-        this->password = password;
-    }
+    IndividualUser(string &identifier, string &password): User(identifier, password) {};
     
     virtual ~IndividualUser() = default;
 

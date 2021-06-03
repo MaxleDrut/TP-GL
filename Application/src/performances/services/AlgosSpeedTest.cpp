@@ -28,7 +28,8 @@ void AlgosSpeedTest::perf_FR8_AirQuality() {
 
     auto start = chrono::high_resolution_clock::now();
 
-    string output = service->FR8_quality(45,0,mktime(&requestTimeDate));
+    auto time = mktime(&requestTimeDate);
+    string output = service->FR8_quality(45,0,time);
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;
@@ -74,7 +75,9 @@ void AlgosSpeedTest::perf_FR7_SensorComparison() {
 
     auto start = chrono::high_resolution_clock::now();
 
-    map<Sensor,double, SensorComparator> output = service->FR7_sensorComparison(*s0,mktime(&t1),mktime(&t2));
+    auto time_start = mktime(&t1);
+    auto time_stop = mktime(&t2);
+    map<Sensor,double, SensorComparator> output = service->FR7_sensorComparison(*s0,time_start,time_stop);
 
     auto finish = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = finish - start;
