@@ -192,7 +192,7 @@ int SensorService_test::test_FR7_averageValue() {
     Attribute o2(unit,description,id);
             
     double res = service->FR7_averageValue(*sens,o2,mktime(&requestTimeDate),mktime(&requestTimeDate)+60*20);
-    assert(res == NULL);
+    assert(res == numeric_limits<double>::lowest());
 
     cout<<"Test FR7_averageValue ok"<<endl;
     return 0;

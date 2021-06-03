@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <ctime>
+#include <iostream>
+#include <limits>
 #include <fstream>
 #include "sensors/Attribute.h"
 #include "sensors/Sensor.h"
