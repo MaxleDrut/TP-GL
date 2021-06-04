@@ -167,10 +167,25 @@ bool Terminal::processCommand(const vector<string>& command)
             auto sensors = sensorService->getSensors();
             printSensors(sensors);
         }
-        else if(command[1] == "cleaners" && (userType == UserTypes::GOVERNMENT || userType == UserTypes::PROVIDER))
+        else if(command[1] == "cleaners")
         {
-            auto cleaners = cleanerService->getCleaners();
-            printCleaners(cleaners);
+            if(userType == UserTypes::GOVERNMENT)
+            {
+                auto cleaners = cleanerService->getCleaners();
+                printCleaners(cleaners);
+            }
+            else if(userType == UserTypes::PROVIDER)
+            {
+                auto user = userService->authenticate(userId, userPassword);
+                auto provider = dynamic_cast<ProviderUser*>(user);
+
+                auto cleaners = provider->getCleaners();
+                printCleaners(cleaners);
+            }
+            else
+            {
+                return false;
+            }
         }
         else if(command[1] == "cleaner" && command.size() > 2
                 && (userType == UserTypes::GOVERNMENT || userType == UserTypes::PROVIDER))
@@ -332,7 +347,7 @@ bool Terminal::processSensorCommand(const vector<string> &command)
 
         cout << "Divergence = " << score << " (elapsed time: " << chrono::duration_cast<chrono::milliseconds>(end_time - begin_time).count() << " ms)" << endl;
     }
-    else if(command[0] == "disable")
+    else if(command[0] == "disable" && userType == UserTypes::GOVERNMENT)
     {
         /* Handled commands:
          * disable
@@ -342,7 +357,7 @@ bool Terminal::processSensorCommand(const vector<string> &command)
 
         cout << BOLD << "Sensor disabled." << NO_COLOR << endl;
     }
-    else if(command[0] == "enable")
+    else if(command[0] == "enable" && userType == UserTypes::GOVERNMENT)
     {
         /* Handled commands:
          * enable
@@ -496,10 +511,15 @@ void Terminal::printSensorMenu(UserTypes privilegeLevel) const
 
     cout << PALE_BLUE << "evaluate" << NO_COLOR << endl
         << " Run malfunctioning sensor detection algorithm on this sensor." << endl;
-    cout << PALE_BLUE << "disable" << NO_COLOR << endl
-        << " Disable this sensor. It won't be used in future computations." << endl;
-    cout << PALE_BLUE << "enable" << NO_COLOR << endl
-        << " Enable this sensor to use it again in computations." << endl;
+
+    if(privilegeLevel == UserTypes::GOVERNMENT)
+    {
+        cout << PALE_BLUE << "disable" << NO_COLOR << endl
+            << " Disable this sensor. It won't be used in future computations." << endl;
+        cout << PALE_BLUE << "enable" << NO_COLOR << endl
+            << " Enable this sensor to use it again in computations." << endl;
+    }
+    
     cout << PALE_BLUE << "compare <start_date> <end_date>" << NO_COLOR << endl
         << " Display a similarity ranking between this sensor and the others during a specified time period. Dates should follow this format: dd/mm/yyyy." << endl;
 
