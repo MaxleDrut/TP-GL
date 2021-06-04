@@ -104,7 +104,7 @@ int SensorService_test::test_FR8_qualityAttributes() {
 
     map<Attribute *,double> output2 = service->FR8_qualityAttributes(45,-2,mktime(&requestTimeDate2));
 
-    double expectedValues2[4] = {NULL,NULL,NULL,NULL};
+    double expectedValues2[4] = {numeric_limits<double>::lowest(),numeric_limits<double>::lowest(),numeric_limits<double>::lowest(),numeric_limits<double>::lowest()};
     i=0;
     for(auto &it : output2) {
         double round = ((int)(it.second*100))/100.0;
