@@ -9,9 +9,9 @@ using namespace std;
 
 #define private public
 
-#include "Services/SensorService.h"
+#include "services/SensorService.h"
 #include "sensors/Sensor.h"
-#include "Services/LoadService.h"
+#include "services/LoadService.h"
 
 class SensorService_test {
     private:
